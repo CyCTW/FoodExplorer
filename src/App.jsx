@@ -1,5 +1,4 @@
 import { MapProvider } from "./component/MapContext";
-import { Key } from "./key";
 import LoginPage from "./LoginPage";
 import UserMainPage from "./UserMainPage";
 import SearchPage from "./UserMainPage/SearchPage";

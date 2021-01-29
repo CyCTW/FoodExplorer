@@ -1,1 +1,1 @@
-export const Key = "TEST"
+export const MapAPIKey = "Put Your API Key here"
