@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { Key } from "../key";
+import { MapAPIKey } from "../key";
 import GoogleMapReact from "google-map-react";
 
 const MapContext = createContext({
@@ -25,6 +25,7 @@ export const MapProvider = ({ children }) => {
     },
     zoom: 17,
   };
+  console.log(MapAPIKey)
   return (
     <MapContext.Provider
       value={{
@@ -40,7 +41,7 @@ export const MapProvider = ({ children }) => {
       {/* <div style={{ height: "100vh", width: "100%" }}> */}
       <GoogleMapReact
         bootstrapURLKeys={{
-          key: Key,
+          key: MapAPIKey,
           libraries: ["places"], // 要在這邊放入我們要使用的 API
         }}
         defaultCenter={mprops.center}
