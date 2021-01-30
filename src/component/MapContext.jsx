@@ -25,7 +25,6 @@ export const MapProvider = ({ children }) => {
     },
     zoom: 17,
   };
-  console.log(MapAPIKey)
   return (
     <MapContext.Provider
       value={{

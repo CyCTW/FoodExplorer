@@ -10,11 +10,9 @@ import {
   IconButton,
   Stack,
 } from "@chakra-ui/react";
-import { Link as ReachLink, Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { Link as ReachLink, useHistory } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import SearchPage from "../UserMainPage/SearchPage";
 
 const SigninPage = () => {
   const history = useHistory();

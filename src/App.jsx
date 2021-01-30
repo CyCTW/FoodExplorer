@@ -1,17 +1,13 @@
 import { MapProvider } from "./component/MapContext";
 import LoginPage from "./LoginPage";
-import UserMainPage from "./UserMainPage";
-import SearchPage from "./UserMainPage/SearchPage";
 import {
   BrowserRouter,
-  Link as ReachLink,
-  Redirect,
   Route,
   Switch,
-  useHistory,
 } from "react-router-dom";
 import SignupPage from "./SignupPage";
 import SigninPage from "./SigninPage";
+import SearchPage from "./UserMainPage/SearchPage";
 function App() {
   // add lat and lng attribute in child component of GoogleMapReact
   return (
