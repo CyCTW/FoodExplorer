@@ -147,11 +147,11 @@ const SearchPage = () => {
           </PopoverContent>
         </Popover>
       </Flex>
-      
-      <FoodMap />
 
       <Switch>
         <Route path={`${path}`} exact>
+          <FoodMap />
+
           <EmptyListPage />
         </Route>
         <Route path={`${path}/:foodId`}>
