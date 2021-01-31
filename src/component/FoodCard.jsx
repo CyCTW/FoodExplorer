@@ -11,30 +11,70 @@ import {
   Stack,
   Text,
   Button,
+  IconButton,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, StarIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  StarIcon,
+} from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
 const FoodCard = ({ mapResponse }) => {
   // photo, name, rating, address, isOpen, businessStatus,
   console.log(mapResponse);
+  const [photoIdx, setPhotoIdx] = useState(0);
+
+  useEffect(() => {
+    setPhotoIdx(0);
+  }, [mapResponse]);
+  //   const photoLength = mapResponse.photos.length;
+  console.log(photoIdx);
   return (
     // <Flex direction="column" align="center">
     <Stack spacing="30px" align="center" mt={5}>
-      <Image
-        src={mapResponse.photos && mapResponse.photos[0].getUrl()}
-        boxSize="300px"
-        alt={mapResponse.name}
-      />
-      <Box>{mapResponse.name}</Box>
+      <HStack>
+        <IconButton
+          colorScheme="cyan"
+          onClick={() => {
+            if (photoIdx > 0) {
+              setPhotoIdx((idx) => idx - 1);
+            }
+          }}
+          icon={<ChevronLeftIcon />}
+        />
+
+        <Image
+          src={
+            mapResponse.photos &&
+            mapResponse.photos[photoIdx].getUrl()
+          }
+          boxSize="300px"
+          alt={mapResponse.name}
+        />
+        <IconButton
+          colorScheme="cyan"
+          onClick={() => {
+            if (photoIdx + 1 < mapResponse.photos.length) {
+              setPhotoIdx((idx) => idx + 1);
+            }
+          }}
+          icon={<ChevronRightIcon />}
+        />
+      </HStack>
+      <Box>{mapResponse.name && mapResponse.name}</Box>
       <Box>
         <StarIcon mr={3} color="yellow.200" />
-        {mapResponse.rating}
+        {mapResponse.rating && mapResponse.rating}
       </Box>
-      <Box>{mapResponse.formatted_address}</Box>
+      <Box>
+        {mapResponse.formatted_address && mapResponse.formatted_address}
+      </Box>
       <HStack>
-        {mapResponse.opening_hours.isOpen() ? (
+        {mapResponse.isOpen ? (
           <Text color="green.500">Open now</Text>
         ) : (
-          "Close now"
+            <Text color="red.500">Close now</Text>
         )}
         <Menu>
           {({ isOpen }) => (
@@ -47,9 +87,10 @@ const FoodCard = ({ mapResponse }) => {
                 {isOpen ? "Close" : "Opening Time"}
               </MenuButton>
               <MenuList>
-                {mapResponse.opening_hours.weekday_text.map((item, idx) => {
-                  return <MenuItem key={idx}>{item}</MenuItem>;
-                })}
+                {mapResponse.weekday &&
+                  mapResponse.weekday.map((item, idx) => {
+                    return <MenuItem key={idx}>{item}</MenuItem>;
+                  })}
               </MenuList>
             </>
           )}
