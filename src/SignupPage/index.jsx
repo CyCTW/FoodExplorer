@@ -10,15 +10,16 @@ import {
   IconButton,
   Stack,
 } from "@chakra-ui/react";
-import { Link as ReachLink } from "react-router-dom";
+import { Link as ReachLink, useHistory } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 
 const SignupPage = () => {
+    const history = useHistory();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    // history.push("/user1")
+    history.push("/user/asd")
   };
   return (
     <>
