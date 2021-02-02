@@ -1,9 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import GoogleMapReact from "google-map-react";
+import { useContext } from "react";
 import { MapAPIKey } from "../key";
+import MapContext from "./MapContext";
 
 const FoodMap = () => {
-  //   const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
+    const { mapAPILoaded, mapAPI } = useContext(MapContext);
   const mprops = {
     center: {
       lat: 25.04,

@@ -24,3 +24,4 @@ yarn-error.log*
 
 .eslintcache
 key.js
+dbkey.txt

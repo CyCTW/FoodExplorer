@@ -18,15 +18,16 @@ import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import FoodCard from "../component/FoodCard";
 import CategoryCard from "../component/CategoryCard";
 import FoodMap from "../component/FoodMap";
+import SearchBox from "../component/SearchBox";
 
 const SearchPage = () => {
   // useContext: mapApiLoaded
-  const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
+//   const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
 
-  const [inputText, setInputText] = useState();
-  const [autocompleteSearch, setAutocompleteSearch] = useState([]);
-  //   const [searchResult, setSearchResult] = useState(null);
-  const [mapResponse, setMapResponse] = useState({
+//   const [inputText, setInputText] = useState();
+//   const [autocompleteSearch, setAutocompleteSearch] = useState([]);
+
+const [mapResponse, setMapResponse] = useState({
     photo: null,
     name: null,
     rating: null,
@@ -36,78 +37,75 @@ const SearchPage = () => {
   });
   const [categoryList, setCategoryList] = useState([]);
   let { path, url } = useRouteMatch();
-  const history = useHistory();
+  console.log("CategoryList: ", categoryList)
+//   const history = useHistory();
+//   const handleAutoComplete = () => {
+//     if (mapAPILoaded && inputText) {
+//       console.log("enter!");
+//       const service = new mapAPI.places.AutocompleteService();
+//       //   const service = new mapAPI.places.PlacesService(mapInstance);
+//       const request = {
+//         input: inputText,
+//       };
 
-  const handleAutoComplete = () => {
-    if (mapAPILoaded && inputText) {
-      console.log("enter!");
-      const service = new mapAPI.places.AutocompleteService();
-      //   const service = new mapAPI.places.PlacesService(mapInstance);
-      const request = {
-        input: inputText,
-      };
+//       service.getPlacePredictions(request, (results, status) => {
+//         // console.log(results);
+//         if (status === mapAPI.places.PlacesServiceStatus.OK) {
+//           console.log(results);
+//           setAutocompleteSearch(results);
+//         }
+//       });
+//     }
+//   };
+//   useEffect(() => {
+//     handleAutoComplete();
+//   }, [inputText]);
 
-      service.getPlacePredictions(request, (results, status) => {
-        // console.log(results);
-        if (status === mapAPI.places.PlacesServiceStatus.OK) {
-          console.log(results);
-          setAutocompleteSearch(results);
-        }
-      });
-    }
-  };
-  useEffect(() => {
-    handleAutoComplete();
-  }, [inputText]);
-  //   useEffect(() => {
-  //     if (searchResult !== null) {
-  //       history.push(`${url}/food`);
-  //     }
-  //   }, [searchResult]);
-  const handleInputOnChange = (e) => {
-    console.log(e.target.value);
-    setInputText(e.target.value);
-  };
-  const handleClickItem = async (e) => {
-    const placeId = e.target.getAttribute("dataid");
+//   const handleInputOnChange = (e) => {
+//     console.log(e.target.value);
+//     setInputText(e.target.value);
+//   };
+//   const handleClickItem = async (e) => {
+//     const placeId = e.target.getAttribute("dataid");
 
-    const service = new mapAPI.places.PlacesService(mapInstance);
-    const request = {
-      placeId,
-      fields: [
-        "name",
-        "rating", // 評價
-        "formatted_address", // 地址
-        "formatted_phone_number", // 電話
-        "geometry", // 幾何資訊
-        "opening_hours", // 營業時間資訊
-        "photos",
-        "utc_offset_minutes",
-      ],
-    };
-    await service.getDetails(request, (results, status) => {
-      if (status === mapAPI.places.PlacesServiceStatus.OK) {
-        // console.log(results.opening_hours.weekday_text);
-        // deal with null value
+//     const service = new mapAPI.places.PlacesService(mapInstance);
+//     const request = {
+//       placeId,
+//       fields: [
+//         "name",
+//         "rating", // 評價
+//         "formatted_address", // 地址
+//         "formatted_phone_number", // 電話
+//         "geometry", // 幾何資訊
+//         "opening_hours", // 營業時間資訊
+//         "photos",
+//         "utc_offset_minutes",
+//       ],
+//     };
+//     await service.getDetails(request, (results, status) => {
+//       if (status === mapAPI.places.PlacesServiceStatus.OK) {
+//         // console.log(results.opening_hours.weekday_text);
+//         // deal with null value
 
-        setMapResponse({
-          photos: results.photos ? results.photos : null,
-          name: results.name && results.name,
-          rating: results.rating && results.rating,
-          formatted_address:
-            results.formatted_address && results.formatted_address,
-          weekday: results.opening_hours && results.opening_hours.weekday_text,
-          isOpen: results.opening_hours && results.opening_hours.isOpen(),
-          // utc_offset_minutes: results.utc_offset_minutes && results.utc_offset_minutes
-        });
-      }
-    });
-    setInputText(null);
-    history.push(`${url}/food`);
-  };
+//         setMapResponse({
+//           photos: results.photos ? results.photos : null,
+//           name: results.name && results.name,
+//           rating: results.rating && results.rating,
+//           formatted_address:
+//             results.formatted_address && results.formatted_address,
+//           weekday: results.opening_hours && results.opening_hours.weekday_text,
+//           isOpen: results.opening_hours && results.opening_hours.isOpen(),
+//           // utc_offset_minutes: results.utc_offset_minutes && results.utc_offset_minutes
+//         });
+//       }
+//     });
+//     setInputText(null);
+//     history.push(`${url}/food`);
+//   };
   return (
     <Flex direction="column" align="center">
-      <Flex w="300px">
+        <SearchBox setMapResponse={setMapResponse}/>
+      {/* <Flex w="300px">
         <Popover placement="right" isOpen>
           <PopoverTrigger>
             <IconButton icon={<SearchIcon />} />
@@ -146,7 +144,7 @@ const SearchPage = () => {
               })}
           </PopoverContent>
         </Popover>
-      </Flex>
+      </Flex> */}
 
       <Switch>
         <Route path={`${path}`} exact>

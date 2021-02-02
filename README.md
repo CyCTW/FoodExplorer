@@ -14,8 +14,10 @@
 ### Install the needed dependency
 `npm install` 
 
-### Run this project and deploy website at `localhost:3000`.
+### Run this project.
 `npm start`
+
+deploy the project on `localhost:3000`
 
 ### Build the project
 `npm build` 

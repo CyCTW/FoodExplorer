@@ -12,6 +12,8 @@ import {
   Text,
   Button,
   IconButton,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import {
   ChevronDownIcon,
@@ -45,17 +47,19 @@ const FoodCard = ({ mapResponse }) => {
         />
 
         <Image
-          src={
-            mapResponse.photos &&
-            mapResponse.photos[photoIdx].getUrl()
+          src={mapResponse.photos && mapResponse.photos[photoIdx].getUrl()}
+          fallback={
+            <Center as={Box} boxSize="300px">
+              <Spinner size="xl" />
+            </Center>
           }
           boxSize="300px"
-          alt={mapResponse.name}
+          alt={"Loading..."}
         />
         <IconButton
           colorScheme="cyan"
           onClick={() => {
-            if (photoIdx + 1 < mapResponse.photos.length) {
+            if (mapResponse.photos && photoIdx + 1 < mapResponse.photos.length) {
               setPhotoIdx((idx) => idx + 1);
             }
           }}
@@ -74,7 +78,7 @@ const FoodCard = ({ mapResponse }) => {
         {mapResponse.isOpen ? (
           <Text color="green.500">Open now</Text>
         ) : (
-            <Text color="red.500">Close now</Text>
+          <Text color="red.500">Close now</Text>
         )}
         <Menu>
           {({ isOpen }) => (

@@ -31,7 +31,7 @@ const CategoryCard = ({ categoryList, setCategoryList }) => {
     <Stack spacing={7}>
         <Text>Category</Text>
 
-      <Menu>
+      <Menu >
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
           {selectedCategory ? selectedCategory : "Choose a category"}
         </MenuButton>
@@ -39,13 +39,13 @@ const CategoryCard = ({ categoryList, setCategoryList }) => {
           {categoryList &&
             categoryList.map((item) => {
               return (
-                <MenuItem m={2} onClick={() => setSelectedCategory(item)}>
+                <MenuItem  onClick={() => setSelectedCategory(item)}>
                   {item}
                 </MenuItem>
               );
             })}
           <MenuItem
-            m={2}
+            
             borderTop="solid 2px gray"
             colorScheme="blue"
             onClick={onOpen}
@@ -69,6 +69,7 @@ const CategoryCard = ({ categoryList, setCategoryList }) => {
                       nowArr.push(userInput);
                       //   console.log("nowARr", nowArr)
                       setCategoryList(nowArr);
+                      setSelectedCategory(userInput)
                       onClose();
                     }}
                   >

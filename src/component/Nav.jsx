@@ -1,11 +1,11 @@
-import { Box, Flex, HStack, Button } from "@chakra-ui/react";
+import { Box, Flex, HStack, Button, Image, IconButton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import Logo from "../icon/logo_transparent.png"
 const Nav = () => {
   return (
     <Flex justify="space-between" bgColor="red.200" height="50px" mb={10}>
       <HStack>
-        <Button as={Link} to="/">Logo</Button>
+        <IconButton variant="link" m={5} icon={<Image src={Logo} width="100px" height="40px"/>} bgColor="red.200" as={Link} to="/"/>
       </HStack>
       <HStack space="20px">
         <Button colorScheme="blue" as={Link} to="/signup">Signup</Button>
