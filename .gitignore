@@ -25,3 +25,6 @@ yarn-error.log*
 .eslintcache
 key.js
 dbkey.txt
+
+# Local Netlify folder
+.netlify
