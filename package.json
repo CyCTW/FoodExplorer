@@ -12,6 +12,7 @@
     "axios": "0.21.1",
     "faunadb": "^4.0.2",
     "framer-motion": "3.2.1",
+    "gotrue-js": "^0.9.29",
     "jwt-decode": "3.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

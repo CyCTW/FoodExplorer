@@ -13,14 +13,26 @@ import {
 import { Link as ReachLink, useHistory } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
+import { AuthGetJWT, AuthLogin } from "../component/Auth";
+import { getUserFoodList } from "../utils";
+import { useState } from "react";
 
 const SigninPage = () => {
   const history = useHistory();
-  const { register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
+  const [] = useState();
 
-  const onSubmit = (data) => {
-    console.log(data)
-    history.push("/user/adsf")
+  const onSubmit = async (data) => {
+    console.log(data);
+    await AuthLogin({ email: data.email, password: data.password });
+    AuthGetJWT()
+      .then((token) => {
+        console.log("token", token);
+        history.push(`/user/${token}`);
+      })
+      .catch((err) => {
+        console.log("error occured", err);
+      });
   };
   return (
     <>
@@ -40,24 +52,25 @@ const SigninPage = () => {
           <Stack spacing="30px">
             <FormControl id="email" isRequired w="300px">
               <FormLabel>Email</FormLabel>
-              <Input name="email" type="email" ref={register} placeholder="example@gmail.com" />
+              <Input
+                name="email"
+                type="email"
+                ref={register}
+                placeholder="example@gmail.com"
+              />
             </FormControl>
             <FormControl id="password" isRequired w="300px">
               <FormLabel>Password</FormLabel>
               <Input name="password" type="password" ref={register} />
             </FormControl>
             <Checkbox w="300px">Remember me</Checkbox>
-            <Button
-              type="submit"
-              colorScheme="blue"
-              w="300px"
-            >
+            <Button type="submit" colorScheme="blue" w="300px">
               Sign in
             </Button>
             <Button as={ReachLink} w="300px">
               Sign in with Facebook
             </Button>
-            <Button as={ReachLink}  w="300px">
+            <Button as={ReachLink} w="300px">
               Sign in with Google
             </Button>
           </Stack>
@@ -66,7 +79,6 @@ const SigninPage = () => {
           Forget password?
         </Link>
       </Flex>
-
     </>
   );
 };
