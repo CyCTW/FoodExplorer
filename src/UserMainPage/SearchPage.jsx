@@ -28,6 +28,7 @@ import SearchBox from "../component/SearchBox";
 // import FoodList from "../component/FoodList";
 import { getUserFoodList } from "../utils";
 import FoodList from "../component/FoodList";
+import jwt from "jwt-decode"
 
 const SearchPage = () => {
   // useContext: mapApiLoaded
@@ -52,7 +53,9 @@ const SearchPage = () => {
   console.log("CategoryList: ", categoryList);
 
   useEffect(() => {
-    getUserFoodList(userId)
+    const email = jwt(userId).email;
+    console.log({email})
+    getUserFoodList(email)
       .then((response) => {
         console.log("response", response)
 

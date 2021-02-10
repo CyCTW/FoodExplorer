@@ -12,13 +12,14 @@ exports.handler = async (event, context) => {
 //   console.log("Eventtttt", event);
   /* parse the string body into a useable JS object */
   const obj = JSON.parse(event.body);
-  const userId = obj.userId;
+  const email = obj.email;
+
   console.log("Userid:", userId)
   /* construct the fauna query */
   return client
     .query(
       q.Create(q.Collection("FoodList"), {
-        data: { userId, foodList: {} },
+        data: { email, foodList: {} },
       })
     )
     .then((response) => {

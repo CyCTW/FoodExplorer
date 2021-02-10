@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
   /* parse the string body into a useable JS object */
   const obj = JSON.parse(event.body);
   const category = obj.category;
-  const userId = obj.userId;
+  const email = obj.email;
   const foodname = obj.foodname;
 
   console.log("Function `updateNewFood` invoked", category, foodname);
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
   return client
     .query(
       q.Update(
-        q.Select(["ref"], q.Get(q.Match(q.Index("FoodList_Id"), userId))),
+        q.Select(["ref"], q.Get(q.Match(q.Index("FoodList_Id"), email))),
         {
           data: { foodList: { category: [foodname] } },
         }

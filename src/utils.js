@@ -18,7 +18,7 @@ export const updateNewFood = async (data) => {
   );
   return response;
 };
-export const createUser = async (userId) => {
+export const createUser = async (email) => {
   /* data format:
     {
       userId
@@ -26,11 +26,11 @@ export const createUser = async (userId) => {
   */
   const response = await axios.post(
     "/.netlify/functions/createUser",
-    JSON.stringify(userId)
+    JSON.stringify(email)
   );
   return response;
 };
-export const getUserFoodList = async (userId) => {
+export const getUserFoodList = async (email) => {
   /* data format:
     {
       userId
@@ -38,7 +38,7 @@ export const getUserFoodList = async (userId) => {
   */
   const response = await axios.post(
     "/.netlify/functions/getUserFoodList",
-    JSON.stringify({ userId })
+    JSON.stringify({ email })
   );
   return response;
 };

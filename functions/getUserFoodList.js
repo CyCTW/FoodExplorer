@@ -12,11 +12,11 @@ exports.handler = async (event, context) => {
   console.log("Eventtttt", event);
   /* parse the string body into a useable JS object */
   const obj = JSON.parse(event.body);
-  const userId = obj.userId;
+  const email = obj.email;
 
   /* construct the fauna query */
   return client
-    .query(q.Get(q.Match(q.Index("FoodList_Id"), userId)))
+    .query(q.Get(q.Match(q.Index("FoodList_Id"), email)))
     .then((response) => {
       console.log("success", response);
       /* Success! return the response with statusCode 200 */

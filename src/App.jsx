@@ -35,11 +35,14 @@ function App() {
   useEffect(async () => {
     console.log("token", token);
     if (token !== null) {
-      await AuthConfirm({ token });
+      const confirmResponse = await AuthConfirm({ token });
+
       const tokenJWT = await AuthGetJWT();
       setJWTtoken(tokenJWT);
+
       console.log("token: ", tokenJWT);
-      const response = await createUser({ userId: tokenJWT });
+      console.log(confirmResponse.email)
+      const response = await createUser({ email: confirmResponse.email});
       console.log("confirm successful!, resp", response);
       setIsLogin(true);
     } else {
