@@ -8,16 +8,32 @@ export const updateNewFood = async (data) => {
   /* data format:
     {
       category,
-      userId,
+      email,
+      originFoodnames,
       foodname
     }
   */
+ console.log("data", data);
   const response = await axios.post(
     "/.netlify/functions/updateNewFood",
-    JSON.stringify({category: data, userId: data, foodname: data})
+    JSON.stringify(data)
   );
   return response;
 };
+export const deleteCategory = async (data) => {
+  /* data format:
+    {
+      category,
+      email
+    }
+  */
+  console.log("data", data);
+  const response = await axios.post(
+    "/.netlify/functions/deleteCategory",
+    JSON.stringify(data)
+  );
+  return response;
+}
 export const createUser = async (email) => {
   /* data format:
     {

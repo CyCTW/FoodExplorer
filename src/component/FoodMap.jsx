@@ -14,7 +14,7 @@ const FoodMap = () => {
     zoom: 17,
   };
   return (
-    <Box mt={5} style={{ height: "50vh", width: "50%" }}>
+    <Box mt={5} style={{ height: "100vh", width: "50%" }}>
       <GoogleMapReact
         bootstrapURLKeys={{
           key: MapAPIKey,

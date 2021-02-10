@@ -22,20 +22,20 @@ import {
 import Confirm from "./component/Confirm";
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [confirmToken, setConfirmToken] = useState(null);
   const [JWTtoken, setJWTtoken] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
 
-  const onFindToken = ({ token }) => {
-    setToken(token);
+  const onFindToken = ({ confirmToken }) => {
+    setConfirmToken(confirmToken);
   };
   const history = useHistory();
 
   // Check #confirm_token exists
   useEffect(async () => {
-    console.log("Confirmtoken", token);
-    if (token !== null) {
-      const confirmResponse = await AuthConfirm({ token });
+    console.log("Confirmtoken", confirmToken);
+    if (confirmToken !== null) {
+      const confirmResponse = await AuthConfirm({ confirmToken });
       console.log("confirm response", confirmResponse)
       const tokenJWT = await AuthGetJWT();
       setJWTtoken(tokenJWT);
@@ -48,30 +48,20 @@ function App() {
     } else {
       decodeToken({ onFindToken });
     }
-  }, [token]);
+  }, [confirmToken]);
 
-  const handleLogout = () => {
-    AuthLogout()
-      .then((resp) => {
-        setIsLogin(false);
-        history.push("/")
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  const handleLogin = () => {
+  const handleLogin = ({token}) => {
     setIsLogin(true);
+    setJWTtoken(token);
   }
   console.log({isLogin})
   return (
     <MapProvider>
       <BrowserRouter>
-        <Nav isLogin={isLogin} handleLogout={handleLogout} />
+        <Nav isLogin={isLogin} setIsLogin={setIsLogin} />
         <Switch>
           <Route key="0" path="/" exact>
-            {isLogin && JWTtoken ? (
+            {isLogin  ? (
               <Redirect to={`/user/${JWTtoken}`} />
             ) : (
               <LoginPage />

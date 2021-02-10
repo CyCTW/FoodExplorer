@@ -1,7 +1,19 @@
 import { Box, Flex, HStack, Button, Image, IconButton } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Logo from "../icon/logo_transparent.png";
-const Nav = ({ isLogin, handleLogout }) => {
+import { AuthLogout } from "./Auth";
+const Nav = ({ isLogin, setIsLogin }) => {
+  const history = useHistory();
+  const handleLogout = () => {
+    AuthLogout()
+      .then((resp) => {
+        setIsLogin(false);
+        history.push("/")
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <Flex justify="space-between" bgColor="red.200" height="50px" mb={10}>
       <HStack>

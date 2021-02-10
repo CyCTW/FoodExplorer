@@ -33,7 +33,7 @@ const SigninPage = ({handleLogin}) => {
         .then((token) => {
           console.log("token", token);
           setUIState("success");
-          handleLogin();
+          handleLogin({token});
           history.push(`/user/${token}`);
         })
         .catch((err) => {

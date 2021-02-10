@@ -93,13 +93,13 @@ const SearchBox = ({ setMapResponse }) => {
           weekday: results.opening_hours && results.opening_hours.weekday_text,
           isOpen: results.opening_hours && results.opening_hours.isOpen(),
         });
+        setInputText(e.target.innerHTML);
+        setMenuOpen(false);
+
+        history.push(`${url}/${results.name}`);
       }
     });
     // console.log("Value", e.target.value)
-    setInputText(e.target.innerHTML);
-    setMenuOpen(false);
-
-    history.push(`${url}/food`);
   };
 
   const handleFocus = () => {
@@ -144,9 +144,7 @@ const SearchBox = ({ setMapResponse }) => {
                   >
                     {res.structured_formatting.main_text}
                   </Text>
-                  <Text
-                    fontSize="12px"
-                  >
+                  <Text fontSize="12px">
                     {res.structured_formatting.secondary_text}
                   </Text>
                 </Stack>

@@ -18,19 +18,31 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { updateNewFood } from "../utils";
 
-const CategoryCard = ({ categoryList, setCategoryList }) => {
+const CategoryCard = ({ foodlist, email }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [userInput, setUserInput] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
+  let { foodname } = useParams();
+  console.log({ foodname });
+  // categoryList temperoaly store the list change
+  const [categoryList, setCategoryList] = useState(Object.keys(foodlist));
+  const history = useHistory();
 
-  const handleStoreFood = () => {
+  const handleStoreFood = async () => {
     // update food
+    await updateNewFood({
+      email,
+      category: selectedCategory,
+      foodname,
+      originFoodnames: (Object.keys(foodlist).indexOf(selectedCategory) != -1) ? foodlist[selectedCategory] : [],
+    });
+    history.push("/");
   };
-  //   console.log(categoryList)
+  console.log({ selectedCategory });
   return (
     <Stack spacing={7}>
       <Text>Category</Text>
@@ -67,15 +79,11 @@ const CategoryCard = ({ categoryList, setCategoryList }) => {
                     colorScheme="cyan"
                     as={Link}
                     onClick={async () => {
-                      //   console.log("cList", categoryList)
-                      let nowArr = [...categoryList];
-                      nowArr.push(userInput);
-                      //   console.log("nowARr", nowArr)
-                      setCategoryList(nowArr);
+                      setCategoryList([...categoryList, userInput]);
                       setSelectedCategory(userInput);
+
                       // create food list
-                      
-                      await updateNewFood(userInput)
+                      await updateNewFood({ email, category: userInput, originFoodnames: [] });
                       onClose();
                     }}
                   >
@@ -87,12 +95,7 @@ const CategoryCard = ({ categoryList, setCategoryList }) => {
           </Modal>
         </MenuList>
       </Menu>
-      <Button
-        as={Link}
-        onClick={handleStoreFood}
-        to="/user/dsffsd"
-        colorScheme="blue"
-      >
+      <Button onClick={handleStoreFood} colorScheme="blue">
         Save to List
       </Button>
     </Stack>
