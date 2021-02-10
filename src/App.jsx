@@ -40,7 +40,7 @@ function App() {
       setJWTtoken(tokenJWT);
       console.log("token: ", tokenJWT);
       const response = await createUser({ userId: tokenJWT });
-      console.log("resp", response);
+      console.log("confirm successful!, resp", response);
       setIsLogin(true);
     } else {
       decodeToken({ onFindToken });
@@ -51,11 +51,17 @@ function App() {
     AuthLogout()
       .then((resp) => {
         setIsLogin(false);
+        history.push("/")
       })
       .catch(err => {
         console.log(err);
       });
   };
+
+  const handleLogin = () => {
+    setIsLogin(true);
+  }
+  console.log({isLogin})
   return (
     <MapProvider>
       <BrowserRouter>
@@ -69,7 +75,7 @@ function App() {
             )}
           </Route>
           <Route key="1" path="/signin" exact>
-            <SigninPage />
+            <SigninPage handleLogin={handleLogin}/>
           </Route>
           <Route key="2" path="/signup">
             <SignupPage />

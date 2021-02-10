@@ -18,7 +18,7 @@ import { AuthGetJWT, AuthLogin } from "../component/Auth";
 import { getUserFoodList } from "../utils";
 import { useState } from "react";
 
-const SigninPage = () => {
+const SigninPage = ({handleLogin}) => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
   const [UIState, setUIState] = useState();
@@ -33,6 +33,7 @@ const SigninPage = () => {
         .then((token) => {
           console.log("token", token);
           setUIState("success");
+          handleLogin();
           history.push(`/user/${token}`);
         })
         .catch((err) => {

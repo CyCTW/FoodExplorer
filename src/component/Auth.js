@@ -62,7 +62,8 @@ export const AuthGetJWT = async () => {
   const jwt = user.jwt();
   return jwt
     .then((response) => {
-      return response;
+      
+      return response.split('.')[1];
     })
     .catch((err) => {
       console.log("error fetching JWT", err);
