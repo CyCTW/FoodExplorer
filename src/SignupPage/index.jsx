@@ -9,8 +9,15 @@ import {
   Text,
   IconButton,
   Stack,
+  FormHelperText,
 } from "@chakra-ui/react";
-import { Link as ReachLink, Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import {
+  Link as ReachLink,
+  Route,
+  Switch,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { AuthGetJWT, AuthLogin, AuthSignup } from "../component/Auth";
@@ -27,12 +34,15 @@ const SignupPage = () => {
     console.log("data", data);
     try {
       setUIState("loading");
-      await AuthSignup({ email: data.email, password: data.password });
+      await AuthSignup({
+        email: data.email,
+        password: data.password,
+      });
+      history.push(`/confirm`);
     } catch (error) {
       setUIState("error");
       console.log("Submit error", error);
     }
-    history.push(`/confirm`);
   };
   return (
     <>
@@ -61,15 +71,35 @@ const SignupPage = () => {
                     placeholder="example@gmail.com"
                   />
                 </FormControl>
-                <FormControl id="username" isRequired w="300px">
+                <FormControl
+                  id="username"
+                  isRequired
+                  w="300px"
+                  isInvalid={UIState === "error"}
+                >
                   <FormLabel>Username</FormLabel>
                   <Input name="username" type="username" ref={register} />
                 </FormControl>
-                <FormControl id="password" isRequired w="300px">
+                <FormControl
+                  id="password"
+                  isRequired
+                  w="300px"
+                  isInvalid={UIState === "error"}
+                >
                   <FormLabel>Password</FormLabel>
                   <Input name="password" type="password" ref={register} />
+                  {UIState === "error" && (
+                    <FormHelperText color="red.500">
+                      Email has been register
+                    </FormHelperText>
+                  )}
                 </FormControl>
-                <Button isLoading={UIState==="loading"} type="submit" colorScheme="blue" w="300px">
+                <Button
+                  isLoading={UIState === "loading"}
+                  type="submit"
+                  colorScheme="blue"
+                  w="300px"
+                >
                   Sign up
                 </Button>
                 <Button as={ReachLink} w="300px">

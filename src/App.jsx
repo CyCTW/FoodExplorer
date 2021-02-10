@@ -32,23 +32,23 @@ function App() {
   const history = useHistory();
 
   // Check #confirm_token exists
-  // useEffect(async () => {
-  //   console.log("Confirmtoken", token);
-  //   if (token !== null) {
-  //     const confirmResponse = await AuthConfirm({ token });
+  useEffect(async () => {
+    console.log("Confirmtoken", token);
+    if (token !== null) {
+      const confirmResponse = await AuthConfirm({ token });
+      console.log("confirm response", confirmResponse)
+      const tokenJWT = await AuthGetJWT();
+      setJWTtoken(tokenJWT);
 
-  //     const tokenJWT = await AuthGetJWT();
-  //     setJWTtoken(tokenJWT);
+      console.log("JWTtoken: ", tokenJWT);
 
-  //     console.log("JWTtoken: ", tokenJWT);
-  //     console.log(confirmResponse.response.email)
-  //     const response = await createUser({ email: confirmResponse.response.email});
-  //     console.log("confirm successful!, resp", response);
-  //     setIsLogin(true);
-  //   } else {
-  //     decodeToken({ onFindToken });
-  //   }
-  // }, [token]);
+      const response = await createUser({ email: confirmResponse.email});
+      console.log("confirm successful!, resp", response);
+      setIsLogin(true);
+    } else {
+      decodeToken({ onFindToken });
+    }
+  }, [token]);
 
   const handleLogout = () => {
     AuthLogout()

@@ -14,7 +14,6 @@ exports.handler = async (event, context) => {
   const obj = JSON.parse(event.body);
   const email = obj.email;
 
-  console.log("Userid:", userId)
   /* construct the fauna query */
   return client
     .query(

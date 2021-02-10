@@ -38,8 +38,14 @@ export const AuthLogout = async () => {
 export const AuthSignup = async ({ email, password }) => {
   return auth
     .signup(email, password)
-    .then((response) => console.log("Success!Check your inbox! ", response))
-    .catch((error) => console.log("It 's an error", error));
+    .then((response) => {
+      console.log("Success!Check your inbox! ", response);
+      return response;
+    })
+    .catch((error) => {
+      console.log("It 's an error", error);
+      throw new Error();
+    });
 };
 
 export const AuthConfirm = async ({ token }) => {
@@ -50,9 +56,11 @@ export const AuthConfirm = async ({ token }) => {
         "Account confirmed!Welcome to the party!",
         JSON.stringify({ response })
       );
+      return response;
     })
     .catch((e) => {
       console.log(e);
+      return e;
     });
 };
 
@@ -62,7 +70,6 @@ export const AuthGetJWT = async () => {
   const jwt = user.jwt();
   return jwt
     .then((response) => {
-      
       return response;
     })
     .catch((err) => {
