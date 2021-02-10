@@ -67,6 +67,7 @@ const SearchPage = () => {
       });
   }, []);
 
+  console.log({UIState})
   return (
     <Flex direction="column" align="center">
       <SearchBox setMapResponse={setMapResponse} />

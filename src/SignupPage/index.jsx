@@ -15,17 +15,23 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { AuthGetJWT, AuthLogin, AuthSignup } from "../component/Auth";
 import { createUser } from "../utils";
+import { useState } from "react";
 
 const SignupPage = () => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
   let { path, url } = useRouteMatch();
+  const [UIState, setUIState] = useState();
 
   const onSubmit = async (data) => {
     console.log("data", data);
-    await AuthSignup({ email: data.email, password: data.password });
-    // await AuthLogin({ email: data.email, password: data.password });
-    // const JWTtoken = await AuthGetJWT();
+    try {
+      setUIState("loading");
+      await AuthSignup({ email: data.email, password: data.password });
+    } catch (error) {
+      setUIState("error");
+      console.log("Submit error", error);
+    }
     history.push(`/confirm`);
   };
   return (
@@ -63,7 +69,7 @@ const SignupPage = () => {
                   <FormLabel>Password</FormLabel>
                   <Input name="password" type="password" ref={register} />
                 </FormControl>
-                <Button type="submit" colorScheme="blue" w="300px">
+                <Button isLoading={UIState==="loading"} type="submit" colorScheme="blue" w="300px">
                   Sign up
                 </Button>
                 <Button as={ReachLink} w="300px">

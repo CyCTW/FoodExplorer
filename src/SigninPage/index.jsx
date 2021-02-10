@@ -9,6 +9,7 @@ import {
   Text,
   IconButton,
   Stack,
+  FormHelperText,
 } from "@chakra-ui/react";
 import { Link as ReachLink, useHistory } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -20,19 +21,29 @@ import { useState } from "react";
 const SigninPage = () => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
-  const [] = useState();
+  const [UIState, setUIState] = useState();
 
   const onSubmit = async (data) => {
     console.log(data);
-    await AuthLogin({ email: data.email, password: data.password });
-    AuthGetJWT()
-      .then((token) => {
-        console.log("token", token);
-        history.push(`/user/${token}`);
-      })
-      .catch((err) => {
-        console.log("error occured", err);
-      });
+    setUIState("loading");
+    try {
+      await AuthLogin({ email: data.email, password: data.password });
+
+      AuthGetJWT()
+        .then((token) => {
+          console.log("token", token);
+          setUIState("success");
+          history.push(`/user/${token}`);
+        })
+        .catch((err) => {
+          console.log("error occured", err);
+        });
+    } catch (error) {
+      console.log("error", error);
+      setUIState("error");
+
+      return error;
+    }
   };
   return (
     <>
@@ -50,7 +61,12 @@ const SigninPage = () => {
         <Text fontSize={50}>Sign in</Text>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="30px">
-            <FormControl id="email" isRequired w="300px">
+            <FormControl
+              id="email"
+              isRequired
+              w="300px"
+              isInvalid={UIState === "error"}
+            >
               <FormLabel>Email</FormLabel>
               <Input
                 name="email"
@@ -59,12 +75,23 @@ const SigninPage = () => {
                 placeholder="example@gmail.com"
               />
             </FormControl>
-            <FormControl id="password" isRequired w="300px">
+            <FormControl
+              id="password"
+              isRequired
+              w="300px"
+              isInvalid={UIState === "error"}
+            >
               <FormLabel>Password</FormLabel>
               <Input name="password" type="password" ref={register} />
+              {UIState === "error" && <FormHelperText color="red.500">Email or password invalid</FormHelperText>}
             </FormControl>
             <Checkbox w="300px">Remember me</Checkbox>
-            <Button type="submit" colorScheme="blue" w="300px">
+            <Button
+              isLoading={UIState === "loading"}
+              type="submit"
+              colorScheme="blue"
+              w="300px"
+            >
               Sign in
             </Button>
             <Button as={ReachLink} w="300px">
