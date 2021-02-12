@@ -56,7 +56,6 @@ function App() {
   }
   console.log({isLogin})
   return (
-    <MapProvider>
       <BrowserRouter>
         <Nav isLogin={isLogin} setIsLogin={setIsLogin} />
         <Switch>
@@ -81,7 +80,6 @@ function App() {
           </Route>
         </Switch>
       </BrowserRouter>
-    </MapProvider>
   );
 }
 

@@ -1,108 +1,41 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
-  Button,
-  IconButton,
-  Spinner,
-  Center,
-} from "@chakra-ui/react";
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  StarIcon,
-} from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
-const FoodCard = ({ mapResponse }) => {
-  // photo, name, rating, address, isOpen, businessStatus,
-  console.log(mapResponse);
-  const [photoIdx, setPhotoIdx] = useState(0);
+import { StarIcon } from "@chakra-ui/icons";
+import { Box, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
-  useEffect(() => {
-    setPhotoIdx(0);
-  }, [mapResponse]);
-  //   const photoLength = mapResponse.photos.length;
-  console.log(photoIdx);
+const FoodCard = ({ placeInfo }) => {
+  /* placeInfo: 
+    - formatted_address
+    - formatted_phone_number
+    - geometry
+    - name
+    - opening_hours
+    - photos
+    - rating
+    - 
+
+    */
+
+  console.log(placeInfo);
   return (
-    // <Flex direction="column" align="center">
-    <Stack spacing="30px" align="center" mt={5}>
-      <HStack>
-        <IconButton
-          colorScheme="cyan"
-          onClick={() => {
-            if (photoIdx > 0) {
-              setPhotoIdx((idx) => idx - 1);
-            }
-          }}
-          icon={<ChevronLeftIcon />}
-        />
-
+    <Box border="3px solid" borderRadius="10px" p={10} w="600px">
+      <HStack spacing="30px">
         <Image
-          src={mapResponse.photos && mapResponse.photos[photoIdx].getUrl()}
-          fallback={
-            <Center as={Box} boxSize="300px">
-              <Spinner size="xl" />
-            </Center>
-          }
-          boxSize="300px"
-          alt={"Loading..."}
+          src={placeInfo && placeInfo.photos && placeInfo.photos[0].getUrl()}
+          boxSize="100px"
         />
-        <IconButton
-          colorScheme="cyan"
-          onClick={() => {
-            if (mapResponse.photos && photoIdx + 1 < mapResponse.photos.length) {
-              setPhotoIdx((idx) => idx + 1);
-            }
-          }}
-          icon={<ChevronRightIcon />}
-        />
-      </HStack>
-      <Box>{mapResponse.name && mapResponse.name}</Box>
-      <Box>
-        <StarIcon mr={3} color="yellow.200" />
-        {mapResponse.rating && mapResponse.rating}
-      </Box>
-      <Box>
-        {mapResponse.formatted_address && mapResponse.formatted_address}
-      </Box>
-      <HStack>
-        {mapResponse.isOpen ? (
-          <Text color="green.500">Open now</Text>
-        ) : (
-          <Text color="red.500">Close now</Text>
-        )}
-        <Menu>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                isActive={isOpen}
-                as={Button}
-                rightIcon={<ChevronDownIcon />}
-              >
-                {isOpen ? "Close" : "Opening Time"}
-              </MenuButton>
-              <MenuList>
-                {mapResponse.weekday &&
-                  mapResponse.weekday.map((item, idx) => {
-                    return <MenuItem key={idx}>{item}</MenuItem>;
-                  })}
-              </MenuList>
-            </>
+        <Stack spacing="3px">
+          <Text>{placeInfo && placeInfo.name}</Text>
+          <HStack>
+            <StarIcon mr={3} color="yellow.200" />
+            <Text>{placeInfo && placeInfo.rating}</Text>
+          </HStack>
+          {placeInfo && placeInfo.opening_hours.isOpen() ? (
+            <Text color="green.200">Open now</Text>
+          ) : (
+            <Text color="red.500">Close</Text>
           )}
-        </Menu>
+        </Stack>
       </HStack>
-
-      {/* <Box>{mapResponse.opening_hours.weekday_text}</Box> */}
-    </Stack>
+    </Box>
   );
 };
 export default FoodCard;

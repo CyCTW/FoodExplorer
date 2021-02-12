@@ -1,56 +1,46 @@
 import { Button, Flex, HStack, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { deleteCategory, updateNewFood } from "../utils";
+import { useEffect, useState } from "react";
+import { getPlaceDetails } from "../utils";
+import FoodCard from "./FoodCard";
 
-const FoodList = ({ foodlist, email }) => {
-  const [category, setCategory] = useState();
+const FoodList = ({
+  foodlist,
+  email,
+  handleDeleteItem,
+  handleDeleteCategory,
+  placeInfo
+}) => {
 
-  const handleDelete = async () => {
-    await updateNewFood({ email, category, originFoodnames: [] });
-  };
+  console.log({placeInfo})
+  let foodIdx = -1;
 
   return (
     <Flex direction="column" align="center">
       <Text fontSize="6xl">Your Food List</Text>
-      {foodlist &&
-        Object.keys(foodlist).map((item, idx) => {
+      {placeInfo &&
+        Object.keys(placeInfo).map((category, idx) => {
           return (
             <div key={idx}>
               <HStack>
-                <Text fontSize="4xl">{item}</Text>
+                <Text fontSize="4xl">{category}</Text>
                 <Button
                   colorScheme="red"
                   size="xs"
-                  onClick={async () => {
-                    console.log("Click!");
-                    await deleteCategory({
-                      email,
-                      category: item,
-                    });
-                  }}
+                  onClick={() => handleDeleteCategory({ category })}
                 >
                   Delete
                 </Button>
               </HStack>
-              {foodlist[item].map((food) => {
+              {placeInfo && placeInfo[category].map((place, idx) => {
+                foodIdx += 1;
                 return (
-                  <HStack m={5}>
-                    <Text>{food}</Text>;
+                  <HStack m={5} key={idx}>
+                    <FoodCard placeInfo={place}/>
+
                     <Button
                       colorScheme="red"
                       size="xs"
-                      onClick={async () => {
-                        console.log("Click!");
-                        await updateNewFood({
-                          email,
-                          category: item,
-                          originFoodnames: foodlist[item].filter(
-                            (value, idx, arr) => {
-                              return value != food;
-                            }
-                          ),
-                        });
-                      }}
+                      onClick={() => handleDeleteItem({ category, place })}
                     >
                       Delete
                     </Button>

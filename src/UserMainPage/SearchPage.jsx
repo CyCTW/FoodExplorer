@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useContext, useEffect, useState } from "react";
-import MapContext from "../component/MapContext";
 
 import { debounce } from "lodash";
 import EmptyListPage from "./EmptyListPage";
@@ -24,14 +23,19 @@ import {
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import FoodCard from "../component/FoodCard";
 import CategoryCard from "../component/CategoryCard";
 import FoodMap from "../component/FoodMap";
 import SearchBox from "../component/SearchBox";
 // import FoodList from "../component/FoodList";
-import { getUserFoodList } from "../utils";
+import {
+  deleteCategory,
+  getPlaceDetails,
+  getUserFoodList,
+  updateNewFood,
+} from "../utils";
 import FoodList from "../component/FoodList";
 import jwt from "jwt-decode";
+import FoodInfo from "../component/FoodInfo";
 
 const SearchPage = () => {
   // useContext: mapApiLoaded
@@ -48,16 +52,51 @@ const SearchPage = () => {
     isOpen: null,
     businessStatus: null,
   });
-  const [categoryList, setCategoryList] = useState([]);
+  const [mapAPILoaded, setMapAPILoaded] = useState(false);
+  const [mapInstance, setMapInstance] = useState();
+  const [mapAPI, setMapAPI] = useState();
+
   let { userId } = useParams();
   const [UIState, setUIState] = useState("loading");
   const [foodlist, setFoodlist] = useState();
   const [userEmail, setUserEmail] = useState();
+  const [refresh, setRefresh] = useState(false);
 
   let { path, url } = useRouteMatch();
-  console.log("CategoryList: ", categoryList);
+
+  const handleDeleteItem = async ({ category, place }) => {
+    console.log("Click!");
+    // Delete food
+    await updateNewFood({
+      email: userEmail,
+      category,
+      originFoodIds: foodlist[category].placeIds.filter((value, idx, arr) => {
+        return value != place.placeId;
+      }),
+    });
+    setRefresh(!refresh);
+    console.log({ refresh });
+  };
+
+  const handleDeleteCategory = async ({ category }) => {
+    console.log("Click!");
+    await deleteCategory({
+      email: userEmail,
+      category,
+    });
+    setRefresh(!refresh);
+  };
+
+  const onMapLoaded = async ({ map, maps }) => {
+    console.log("finish loaded");
+
+    setMapAPILoaded(true);
+    setMapInstance(map);
+    setMapAPI(maps);
+  };
 
   useEffect(() => {
+    console.log("Enter");
     const email = jwt(userId).email;
     setUserEmail(email);
     getUserFoodList(email)
@@ -65,38 +104,92 @@ const SearchPage = () => {
         console.log("response", response);
 
         const foodlist = response.data.data.foodList;
-        console.log(foodlist);
+        console.log({ foodlist });
         setFoodlist(foodlist);
+        setPlaceInfo({})
         setUIState("finish");
       })
       .catch((err) => {
         setUIState("error");
         console.log(err);
       });
-  }, []);
+  }, [refresh]);
+
+  /*
+    placeInfo: 
+    {
+      "Ramen": [],
+      "Curry": []
+    }
+  */
+
+  const onFinishLoaded = ({ results, placeId, category }) => {
+    
+    const init = placeInfo.hasOwn;
+    results["placeId"] = placeId;
+    console.log({results})
+    setPlaceInfo((currentState) => ({
+      ...currentState,
+      [category]: [...(currentState.hasOwnProperty(category) ? currentState[category] : []), results],
+    }));
+  };
+  const [placeInfo, setPlaceInfo] = useState({});
+  console.log({ placeInfo });
+  useEffect(() => {
+    if (
+      foodlist &&
+      userEmail &&
+      mapAPI &&
+      mapInstance &&
+      UIState === "finish"
+    ) {
+      console.log({ foodlist });
+      Object.keys(foodlist).map((category, idx) => {
+        foodlist[category].placeIds.map((placeId, idx) => {
+          getPlaceDetails({
+            mapAPILoaded,
+            mapAPI,
+            mapInstance,
+            placeId,
+            category,
+            onFinishLoaded,
+          });
+        });
+      });
+    }
+  }, [foodlist, userEmail, mapAPI, mapInstance, mapAPILoaded, UIState]);
 
   console.log({ UIState });
   return (
     <Flex direction="column">
       <Center>
-        <SearchBox setMapResponse={setMapResponse} />
+        <SearchBox
+          setMapResponse={setMapResponse}
+          mapAPILoaded={mapAPILoaded}
+          mapInstance={mapInstance}
+          mapAPI={mapAPI}
+        />
       </Center>
       <Switch>
         <Route path={`${path}`} exact>
           <Flex justify="space-between">
-            <FoodList foodlist={foodlist} email={userEmail}/>
-            <FoodMap />
+            <FoodList
+              foodlist={foodlist}
+              email={userEmail}
+              handleDeleteItem={handleDeleteItem}
+              handleDeleteCategory={handleDeleteCategory}
+              placeInfo={placeInfo}
+            />
+            <FoodMap
+              foodlist={foodlist}
+              onMapLoaded={onMapLoaded}
+              placeInfo={placeInfo}
+            />
           </Flex>
         </Route>
-        <Route path={`${path}/:foodname`}>
-          <FoodCard mapResponse={mapResponse} />
-
-          <CategoryCard
-            categoryList={categoryList}
-            setCategoryList={setCategoryList}
-            foodlist={foodlist}
-            email={userEmail}
-          />
+        <Route path={`${path}/:placdId`}>
+          <FoodInfo mapResponse={mapResponse} />
+          <CategoryCard foodlist={foodlist} email={userEmail} />
         </Route>
       </Switch>
     </Flex>

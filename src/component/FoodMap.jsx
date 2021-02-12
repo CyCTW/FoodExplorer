@@ -2,17 +2,18 @@ import { Box } from "@chakra-ui/react";
 import GoogleMapReact from "google-map-react";
 import { useContext } from "react";
 import { MapAPIKey } from "../key";
-import MapContext from "./MapContext";
+import FoodMarker from "./FoodMarker";
 
-const FoodMap = () => {
-  const { mapAPILoaded, mapAPI } = useContext(MapContext);
+const FoodMap = ({ onMapLoaded, placeInfo }) => {
+  // const { mapAPILoaded, mapAPI } = useContext(MapContext);
   const mprops = {
     center: {
       lat: 25.04,
       lng: 121.5,
     },
-    zoom: 17,
+    zoom: 10,
   };
+  console.log("Enter Foodmap", {placeInfo})
   return (
     <Box mt={5} style={{ height: "100vh", width: "50%" }}>
       <GoogleMapReact
@@ -23,13 +24,19 @@ const FoodMap = () => {
         defaultCenter={mprops.center}
         defaultZoom={mprops.zoom}
         yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => {
-          console.log("finish loaded second map");
-          //     setMapAPILoaded(true);
-          //     setMapInstance(map);
-          //     setMapAPI(maps);
-        }}
-      />
+        onGoogleApiLoaded={onMapLoaded}
+      >
+        {placeInfo &&
+          Object.keys(placeInfo).map((category) => {
+            return placeInfo[category].map((place) => {
+              return <FoodMarker
+                food={place.name}
+                lat={place.geometry.location.lat()}
+                lng={place.geometry.location.lng()}
+              ></FoodMarker>;
+            });
+          })}
+      </GoogleMapReact>
     </Box>
   );
 };

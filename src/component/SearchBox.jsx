@@ -11,11 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { useContext, useEffect, useRef, useState } from "react";
-import MapContext from "../component/MapContext";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
-const SearchBox = ({ setMapResponse }) => {
-  const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
+const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
+  // const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
 
   const [inputText, setInputText] = useState();
   const [autocompleteSearch, setAutocompleteSearch] = useState([]);
@@ -59,6 +58,8 @@ const SearchBox = ({ setMapResponse }) => {
     setInputText(e.target.value);
   };
 
+  
+
   // handle user click autocomplete search result
   const handleClickItem = async (e) => {
     console.log(e);
@@ -92,11 +93,12 @@ const SearchBox = ({ setMapResponse }) => {
             results.formatted_address && results.formatted_address,
           weekday: results.opening_hours && results.opening_hours.weekday_text,
           isOpen: results.opening_hours && results.opening_hours.isOpen(),
+          geometry: results.geometry && results.geometry,
         });
         setInputText(e.target.innerHTML);
         setMenuOpen(false);
 
-        history.push(`${url}/${results.name}`);
+        history.push(`${url}/${placeId}`);
       }
     });
     // console.log("Value", e.target.value)
@@ -109,7 +111,7 @@ const SearchBox = ({ setMapResponse }) => {
   const handleBlur = () => {
     // setMenuOpen(false);
   };
-  console.log(menuOpen);
+  console.log({ menuOpen });
   return (
     <Flex w="300px">
       <Menu isOpen={menuOpen}>

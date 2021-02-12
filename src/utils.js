@@ -10,10 +10,14 @@ export const updateNewFood = async (data) => {
       category,
       email,
       originFoodnames,
-      foodname
+      foodname {
+       name: ,
+        lat: ,
+        lng: ,
+      }
     }
   */
- console.log("data", data);
+  console.log("data", data);
   const response = await axios.post(
     "/.netlify/functions/updateNewFood",
     JSON.stringify(data)
@@ -33,7 +37,7 @@ export const deleteCategory = async (data) => {
     JSON.stringify(data)
   );
   return response;
-}
+};
 export const createUser = async (email) => {
   /* data format:
     {
@@ -72,5 +76,40 @@ export const decodeToken = ({ onFindToken }) => {
     console.log("Find confirm token!");
     const token = st.slice(pos + targetURL.length);
     onFindToken({ token });
+  }
+};
+
+export const getPlaceDetails = async ({
+  mapAPILoaded,
+  mapAPI,
+  mapInstance,
+  placeId,
+  category,
+  onFinishLoaded
+}) => {
+  if (mapAPILoaded) {
+    console.log("Enter", placeId)
+    const service = new mapAPI.places.PlacesService(mapInstance);
+    const request = {
+      placeId,
+      fields: [
+        "name",
+        "rating", // 評價
+        "formatted_address", // 地址
+        "formatted_phone_number", // 電話
+        "geometry", // 幾何資訊
+        "opening_hours", // 營業時間資訊
+        "photos",
+        "utc_offset_minutes",
+      ],
+    };
+    service.getDetails(request, (results, status) => {
+      if (status === mapAPI.places.PlacesServiceStatus.OK){
+        onFinishLoaded({results, placeId, category})
+      }
+    });
+
+  } else {
+    console.log("FUckck")
   }
 };

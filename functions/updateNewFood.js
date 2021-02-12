@@ -14,17 +14,29 @@ exports.handler = async (event, context) => {
   const obj = JSON.parse(event.body);
   const category = obj.category;
   const email = obj.email;
-  const foodname = obj.foodname;
-  const originFoodnames = obj.originFoodnames;
-  console.log("Function `updateNewFood` invoked", category, foodname);
-  console.log("origin", originFoodnames)
+  const foodId = obj.foodId;
+  const originFoodIds = obj.originFoodIds;
+  const icon = obj.icon;
+
+  console.log("Function `updateNewFood` invoked", category);
+  console.log("origin", originFoodIds)
+  console.log({icon})
   /* construct the fauna query */
+  /* 
+  foodname : 
+  
+  {
+    placeIds: [],
+    icon: ""
+  }
+
+  */
   return client
     .query(
       q.Update(
         q.Select(["ref"], q.Get(q.Match(q.Index("FoodList_Id"), email))),
         {
-          data: { foodList: { [category]: [...originFoodnames, foodname] } },
+          data: { foodList: { [category]: { placeIds: [ ...originFoodIds, foodId ], icon } } },
         }
       )
     )
