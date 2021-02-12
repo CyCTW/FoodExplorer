@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { MapAPIKey } from "../key";
 import FoodMarker from "./FoodMarker";
 
-const FoodMap = ({ onMapLoaded, placeInfo }) => {
+const FoodMap = ({ onMapLoaded, placeInfo, placeIcons}) => {
   // const { mapAPILoaded, mapAPI } = useContext(MapContext);
   const mprops = {
     center: {
@@ -14,6 +14,8 @@ const FoodMap = ({ onMapLoaded, placeInfo }) => {
     zoom: 10,
   };
   console.log("Enter Foodmap", {placeInfo})
+  console.log({placeIcons})
+  console.log("???")
   return (
     <Box mt={5} style={{ height: "100vh", width: "50%" }}>
       <GoogleMapReact
@@ -30,6 +32,7 @@ const FoodMap = ({ onMapLoaded, placeInfo }) => {
           Object.keys(placeInfo).map((category) => {
             return placeInfo[category].map((place) => {
               return <FoodMarker
+                icon={placeIcons[category]}
                 food={place.name}
                 lat={place.geometry.location.lat()}
                 lng={place.geometry.location.lng()}

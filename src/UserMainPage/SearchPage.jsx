@@ -11,7 +11,7 @@ import {
   Square,
   Text,
 } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { SearchIcon, SettingsIcon } from "@chakra-ui/icons";
 import { useContext, useEffect, useState } from "react";
 
 import { debounce } from "lodash";
@@ -106,7 +106,7 @@ const SearchPage = () => {
         const foodlist = response.data.data.foodList;
         console.log({ foodlist });
         setFoodlist(foodlist);
-        setPlaceInfo({})
+        setPlaceInfo({});
         setUIState("finish");
       })
       .catch((err) => {
@@ -124,16 +124,22 @@ const SearchPage = () => {
   */
 
   const onFinishLoaded = ({ results, placeId, category }) => {
-    
     const init = placeInfo.hasOwn;
     results["placeId"] = placeId;
-    console.log({results})
+    console.log({ results });
     setPlaceInfo((currentState) => ({
       ...currentState,
-      [category]: [...(currentState.hasOwnProperty(category) ? currentState[category] : []), results],
+      [category]: [
+        ...(currentState.hasOwnProperty(category)
+          ? currentState[category]
+          : []),
+        results,
+      ],
     }));
   };
   const [placeInfo, setPlaceInfo] = useState({});
+  const [placeIcons, setPlaceIcons] = useState({});
+
   console.log({ placeInfo });
   useEffect(() => {
     if (
@@ -145,6 +151,10 @@ const SearchPage = () => {
     ) {
       console.log({ foodlist });
       Object.keys(foodlist).map((category, idx) => {
+        setPlaceIcons((currentState) => ({
+          ...currentState,
+          [category]: foodlist[category].icon,
+        }));
         foodlist[category].placeIds.map((placeId, idx) => {
           getPlaceDetails({
             mapAPILoaded,
@@ -184,6 +194,7 @@ const SearchPage = () => {
               foodlist={foodlist}
               onMapLoaded={onMapLoaded}
               placeInfo={placeInfo}
+              placeIcons={placeIcons}
             />
           </Flex>
         </Route>
