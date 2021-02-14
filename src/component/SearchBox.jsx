@@ -1,5 +1,4 @@
 import {
-  Box,
   Flex,
   IconButton,
   Input,
@@ -9,8 +8,8 @@ import {
   MenuList,
   Stack,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
-import { useContext, useEffect, useRef, useState } from "react";
+import {  SearchIcon } from "@chakra-ui/icons";
+import {  useEffect,  useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
 const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {

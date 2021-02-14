@@ -1,4 +1,14 @@
-import { Box, Flex, HStack, Button, Image, IconButton } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  HStack,
+  Button,
+  Image,
+  IconButton,
+  useColorMode,
+  Switch,
+} from "@chakra-ui/react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../icon/logo_transparent.png";
 import { AuthLogout } from "./Auth";
@@ -8,25 +18,34 @@ const Nav = ({ isLogin, setIsLogin }) => {
     AuthLogout()
       .then((resp) => {
         setIsLogin(false);
-        history.push("/")
+        history.push("/");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Flex justify="space-between" bgColor="red.200" height="50px" mb={10}>
+    <Flex justify="space-between" bgColor="yellow.400" height="50px" mb={10}>
       <HStack>
         <IconButton
           variant="link"
           m={5}
           icon={<Image src={Logo} width="100px" height="40px" />}
-          bgColor="red.200"
+          bgColor="yellow.400"
           as={Link}
           to="/"
         />
       </HStack>
       <HStack space="20px">
+        <IconButton
+          mr={[2, 3, 4]}
+          aria-label="colorModeIcon"
+          variant="unstyled"
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          onClick={toggleColorMode}
+          bgColor="none"
+        ></IconButton>
         {isLogin && isLogin ? (
           <>
             <Button colorScheme="red" onClick={handleLogout && handleLogout}>

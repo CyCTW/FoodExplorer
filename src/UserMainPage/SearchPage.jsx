@@ -1,25 +1,14 @@
 import {
-  Box,
   Center,
   Flex,
-  HStack,
-  IconButton,
-  Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Square,
-  Text,
 } from "@chakra-ui/react";
-import { SearchIcon, SettingsIcon } from "@chakra-ui/icons";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { debounce } from "lodash";
-import EmptyListPage from "./EmptyListPage";
+// import { debounce } from "lodash";
+// import EmptyListPage from "./EmptyListPage";
 import {
   Route,
   Switch,
-  useHistory,
   useParams,
   useRouteMatch,
 } from "react-router-dom";
