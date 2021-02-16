@@ -1,4 +1,18 @@
-import { Box, Button, Flex, HStack, Text } from "@chakra-ui/react";
+import { DeleteIcon, Icon } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { getPlaceDetails } from "../utils";
 import FoodCard from "./FoodCard";
@@ -15,22 +29,36 @@ const FoodList = ({
 
   return (
     <Flex direction="column" align="center" w="50%">
-      <Text fontSize="6xl" fontFamily="">
-        Food List
-      </Text>
+      <HStack spacing="50px">
+        <Text fontSize="6xl" fontFamily="">
+          Food List
+        </Text>
+        <Menu>
+          <MenuButton as={Button} colorScheme="cyan">
+            Filter
+          </MenuButton>
+          <MenuList>
+            <Stack>
+              {Object.keys(placeInfo).map((category, idx) => {
+                return <Checkbox p={3}>{category}</Checkbox>;
+              })}
+              <Checkbox p={3}>All</Checkbox>
+            </Stack>
+          </MenuList>
+          
+        </Menu>
+      </HStack>
       {placeInfo &&
         Object.keys(placeInfo).map((category, idx) => {
+          // if
           return (
             <Box key={idx} w="80%">
               <HStack>
                 <Text fontSize="4xl">{category}</Text>
-                <Button
-                  colorScheme="red"
-                  size="xs"
+                <IconButton
                   onClick={() => handleDeleteCategory({ category })}
-                >
-                  Delete
-                </Button>
+                  icon={<DeleteIcon />}
+                />
               </HStack>
               {placeInfo &&
                 placeInfo[category].map((place, idx) => {

@@ -26,7 +26,7 @@ const FoodMap = ({ onMapLoaded, placeInfo, placeIcons}) => {
   console.log({selectedPlace})
 
   return (
-    <Box mt={5} style={{ height: "100vh", width: "50%" }}>
+    <Box mt={5} style={{ height: "100vh", width: "50%", position: "fixed", left: "50%"}}>
       <GoogleMapReact
         bootstrapURLKeys={{
           key: MapAPIKey,

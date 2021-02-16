@@ -53,14 +53,14 @@ const SearchPage = () => {
 
   let { path, url } = useRouteMatch();
 
-  const handleDeleteItem = async ({ category, place }) => {
+  const handleDeleteItem = async ({ category, placeInfo }) => {
     console.log("Click!");
     // Delete food
     await updateNewFood({
       email: userEmail,
       category,
       originFoodIds: foodlist[category].placeIds.filter((value, idx, arr) => {
-        return value != place.placeId;
+        return value != placeInfo.placeId; 
       }),
     });
     setRefresh(!refresh);
