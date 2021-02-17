@@ -1,10 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import GoogleMapReact from "google-map-react";
 import { useContext, useState } from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { MapAPIKey } from "../key";
 import FoodMarker from "./FoodMarker";
 
-const FoodMap = ({ onMapLoaded, placeInfo, placeIcons}) => {
+const FoodMap = ({ onMapLoaded, placeInfo, placeIcons, checkBoxState, setSelectedPlace }) => {
   // const { mapAPILoaded, mapAPI } = useContext(MapContext);
   const mprops = {
     center: {
@@ -13,20 +14,33 @@ const FoodMap = ({ onMapLoaded, placeInfo, placeIcons}) => {
     },
     zoom: 13,
   };
-  console.log("Enter Foodmap", {placeInfo})
-  console.log({placeIcons})
-  console.log("???")
-  
-  const [selectedPlace, setSelectedPlace] = useState({category: "null", idx: -1});
+  console.log("Enter Foodmap", { placeInfo });
+  console.log({ placeIcons });
+  console.log("???");
 
-  const handleClickPlace = ({category, idx}) => {
-    setSelectedPlace({category, idx});
+  const [selectedPlaceMark, setSelectedPlaceMark] = useState({
+    category: "null",
+    idx: -1,
+  });
+
+  const handleClickPlace = ({ category, idx }) => {
+    setSelectedPlaceMark({ category, idx });
     console.log("Click");
-  }
-  console.log({selectedPlace})
+  };
+  // console.log({ selectedPlace });
+  const history = useHistory();
+  const {url} = useRouteMatch();
+  
+  const handleClickPlaceCard  = ({placeInfo}) => {
+    setSelectedPlace(placeInfo)
+    history.push(`${url}/show/${placeInfo.placeId}`)
 
+  }
   return (
-    <Box mt={5} style={{ height: "100vh", width: "50%", position: "fixed", left: "50%"}}>
+    <Box
+      mt={5}
+      style={{ height: "100vh", width: "50%", position: "fixed", left: "50%" }}
+    >
       <GoogleMapReact
         bootstrapURLKeys={{
           key: MapAPIKey,
@@ -39,20 +53,25 @@ const FoodMap = ({ onMapLoaded, placeInfo, placeIcons}) => {
       >
         {placeInfo &&
           Object.keys(placeInfo).map((category) => {
-            return placeInfo[category].map((place, idx) => {
-              return <FoodMarker
-                icon={placeIcons[category]}
-                food={place.name}
-                category={category}
-                lat={place.geometry.location.lat()}
-                lng={place.geometry.location.lng()}
-                handleClickPlace={handleClickPlace}
-                selectedPlace={selectedPlace}
-                placeInfo={place}
-                key={idx}
-                idx={idx}
-              ></FoodMarker>;
-            });
+            if (checkBoxState[category] === true) {
+              return placeInfo[category].map((place, idx) => {
+                return (
+                  <FoodMarker
+                    icon={placeIcons[category]}
+                    food={place.name}
+                    category={category}
+                    lat={place.geometry.location.lat()}
+                    lng={place.geometry.location.lng()}
+                    handleClickPlace={handleClickPlace}
+                    handleClickPlaceCard={handleClickPlaceCard}
+                    selectedPlaceMark={selectedPlaceMark}
+                    placeInfo={place}
+                    key={idx}
+                    idx={idx}
+                  ></FoodMarker>
+                );
+              });
+            }
           })}
       </GoogleMapReact>
     </Box>

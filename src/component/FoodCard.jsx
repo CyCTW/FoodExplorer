@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const FoodCard = ({ placeInfo, category, handleDeleteItem }) => {
+const FoodCard = ({ placeInfo, category, index, handleDeleteItem, handleClickCard }) => {
   /* placeInfo: 
     - formatted_address
     - formatted_phone_number
@@ -31,6 +31,7 @@ const FoodCard = ({ placeInfo, category, handleDeleteItem }) => {
       w={["50%", "100%"]}
       mt={5}
       as="button"
+      onClick={() => handleClickCard({placeInfo})}
     >
       <Flex justify="space-between" align="center">
         <HStack spacing="30px">

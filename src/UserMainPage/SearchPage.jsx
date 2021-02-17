@@ -25,6 +25,8 @@ import {
 import FoodList from "../component/FoodList";
 import jwt from "jwt-decode";
 import FoodInfo from "../component/FoodInfo";
+import FoodInfo2 from "../component/FoodInfo2";
+import CategoryCardEdit from "../component/CategoryCardEdit";
 
 const SearchPage = () => {
   // useContext: mapApiLoaded
@@ -60,7 +62,7 @@ const SearchPage = () => {
       email: userEmail,
       category,
       originFoodIds: foodlist[category].placeIds.filter((value, idx, arr) => {
-        return value != placeInfo.placeId; 
+        return value !== placeInfo.placeId; 
       }),
     });
     setRefresh(!refresh);
@@ -113,7 +115,6 @@ const SearchPage = () => {
   */
 
   const onFinishLoaded = ({ results, placeId, category }) => {
-    const init = placeInfo.hasOwn;
     results["placeId"] = placeId;
     console.log({ results });
     setPlaceInfo((currentState) => ({
@@ -128,7 +129,48 @@ const SearchPage = () => {
   };
   const [placeInfo, setPlaceInfo] = useState({});
   const [placeIcons, setPlaceIcons] = useState({});
+  const [checkBoxState, setCheckboxState] = useState({});
+  const [checkAll, setCheckAll] = useState(true);
+  const [selectedPlace, setSelectedPlace] = useState();
 
+  useEffect( () => {
+    console.log({checkBoxState})
+    if (foodlist && Object.keys(checkBoxState).length === 0) {
+      // initialize
+      setCheckboxState(
+        Object.keys(foodlist).reduce(
+          (acc, cur) => ({
+            ...acc,
+            [cur]: true,
+          }),
+          {}
+        )
+      )
+    }
+  }, [foodlist])
+  const handleChangeFilter = ({ status, category }) => {
+
+    const obj = {
+      ...checkBoxState,
+      [category]: status,
+    }
+    setCheckboxState(obj);
+    const allBool = Object.keys(obj).every((cur) => obj[cur])
+    setCheckAll( allBool ) 
+  };
+  const handleChangeAllFilter = (e) => {
+    setCheckboxState( state => 
+      Object.keys(state).reduce(
+        (acc, cur) => ({
+          ...acc,
+          [cur]: e.target.checked,
+        }),
+        {}
+      )
+    );
+    setCheckAll(!checkAll);
+    console.log("ALl Clicked!!")
+  };
   console.log({ placeInfo });
   useEffect(() => {
     if (
@@ -177,19 +219,30 @@ const SearchPage = () => {
               email={userEmail}
               handleDeleteItem={handleDeleteItem}
               handleDeleteCategory={handleDeleteCategory}
+              handleChangeAllFilter={handleChangeAllFilter}
+              handleChangeFilter={handleChangeFilter}
+              checkBoxState={checkBoxState}
+              checkAll={checkAll}
               placeInfo={placeInfo}
+              setSelectedPlace={setSelectedPlace}
             />
             <FoodMap
               foodlist={foodlist}
               onMapLoaded={onMapLoaded}
               placeInfo={placeInfo}
               placeIcons={placeIcons}
+              checkBoxState={checkBoxState}
+              setSelectedPlace={setSelectedPlace}
             />
           </Flex>
         </Route>
-        <Route path={`${path}/:placdId`}>
+        <Route path={`${path}/add/:placeId`}>
           <FoodInfo mapResponse={mapResponse} />
           <CategoryCard foodlist={foodlist} email={userEmail} />
+        </Route>
+        <Route path={`${path}/show/:placeId`}>
+          <FoodInfo mapResponse={selectedPlace} />
+          <CategoryCardEdit />
         </Route>
       </Switch>
     </Flex>

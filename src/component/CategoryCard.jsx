@@ -32,8 +32,7 @@ const CategoryCard = ({ foodlist, email }) => {
 
   const [userInput, setUserInput] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-  let { placdId } = useParams();
-  console.log({ placdId });
+  let { placeId } = useParams();
   // categoryList temperoaly store the list change
   const [categoryList, setCategoryList] = useState(
     foodlist && Object.keys(foodlist)
@@ -45,7 +44,7 @@ const CategoryCard = ({ foodlist, email }) => {
     await updateNewFood({
       email,
       category: selectedCategory,
-      foodId: placdId,
+      foodId: placeId,
       originFoodIds:
         Object.keys(foodlist).indexOf(selectedCategory) != -1
           ? foodlist[selectedCategory].placeIds

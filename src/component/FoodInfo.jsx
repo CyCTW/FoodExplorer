@@ -101,7 +101,6 @@ const FoodInfo = ({ mapResponse }) => {
         </Menu>
       </HStack>
 
-      {/* <Box>{mapResponse.opening_hours.weekday_text}</Box> */}
     </Stack>
   );
 };

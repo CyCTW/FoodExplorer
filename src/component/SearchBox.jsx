@@ -97,7 +97,7 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
         setInputText(e.target.innerHTML);
         setMenuOpen(false);
 
-        history.push(`${url}/${placeId}`);
+        history.push(`${url}/add/${placeId}`);
       }
     });
     // console.log("Value", e.target.value)
@@ -135,7 +135,7 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
             inputText &&
             autocompleteSearch.map((res, idx) => {
               return (
-                <Stack m={4} key={res.id} w="300px">
+                <Stack m={4} key={idx} w="300px">
                   <Text
                     dataid={res.place_id}
                     fontSize="xl"
