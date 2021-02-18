@@ -26,7 +26,11 @@ const Nav = ({ isLogin, setIsLogin }) => {
   };
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Flex justify="space-between" bgColor="yellow.400" height="50px" mb={10}>
+    <Flex justify="space-between" bgColor="yellow.400" height="60px" style={{
+      position: "fixed",
+      width: "100%", 
+      top: 0
+      }}>
       <HStack>
         <IconButton
           variant="link"

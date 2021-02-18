@@ -11,6 +11,7 @@ import {
 import {  SearchIcon } from "@chakra-ui/icons";
 import {  useEffect,  useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import "../style.css"
 
 const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
   // const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
@@ -112,15 +113,17 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
   };
   console.log({ menuOpen });
   return (
-    <Flex w="300px">
+    <Flex w="300px" m={2}>
       <Menu isOpen={menuOpen}>
         {/* <Input value={inputText && inputText} /> */}
-        <MenuButton as={IconButton} icon={<SearchIcon />} mr={2} />
+        <MenuButton as={IconButton} icon={<SearchIcon />} mr={2} colorScheme="red"/>
 
         <Input
           //   border="2px"
-          focusBorderColor="pink.400"
-          variant="outline"
+          isInvalid
+          errorBorderColor="red.500"
+          focusBorderColor="red.400"
+          // variant="outline"
           placeholder="Search restaurant/place"
           //   onChange={debounce(handleInputOnChange, 500)}
           onChange={handleInputOnChange}
@@ -128,6 +131,7 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
           onBlur={handleBlur}
           value={inputText && inputText}
           w="300px"
+          style={{color: "black"}}
         />
 
         <MenuList>

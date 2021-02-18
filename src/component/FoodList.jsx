@@ -1,4 +1,4 @@
-import { DeleteIcon, Icon } from "@chakra-ui/icons";
+import { DeleteIcon, Icon, StarIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -6,10 +6,14 @@ import {
   Flex,
   HStack,
   IconButton,
+  Image,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -17,6 +21,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import { getPlaceDetails } from "../utils";
 import FoodCard from "./FoodCard";
+import SkeletonCard from "./SkeletonCard";
 
 const FoodList = ({
   foodlist,
@@ -28,67 +33,69 @@ const FoodList = ({
   handleChangeFilter,
   handleChangeAllFilter,
   placeInfo,
-  setSelectedPlace
+  setSelectedPlace,
 }) => {
   console.log({ placeInfo });
 
   console.log({ checkBoxState });
-  
-  const history = useHistory()
+
+  const history = useHistory();
   let { url } = useRouteMatch();
 
-  const handleClickCard = ({placeInfo}) => {
-    setSelectedPlace(placeInfo)
-    history.push(`${url}/show/${placeInfo.placeId}`)
-    
-  }
+  const handleClickCard = ({ placeInfo }) => {
+    setSelectedPlace(placeInfo);
+    history.push(`${url}/show/${placeInfo.placeId}`);
+  };
 
   return (
     <Flex direction="column" align="center" w="50%">
-      <HStack spacing="50px">
-        <Text fontSize="6xl" fontFamily="">
-          Food List
-        </Text>
-        <Menu>
-          <MenuButton as={Button} colorScheme="cyan">
-            Filter
-          </MenuButton>
-          <MenuList>
-            <Stack>
-              {foodlist &&
-                Object.keys(foodlist).map((category, idx) => {
-                  return (
-                    <Checkbox
-                      p={3}
-                      key={idx}
-                      isChecked={
-                        checkBoxState.hasOwnProperty(category) &&
-                        checkBoxState[category]
-                      }
-                      onChange={(e) =>
-                        handleChangeFilter({
-                          status: e.target.checked,
-                          category,
-                        })
-                      }
-                    >
-                      {category}
-                    </Checkbox>
-                  );
-                })}
-              <Checkbox
-                p={3}
-                isChecked={checkAll}
-                defaultIsChecked
-                onChange={handleChangeAllFilter}
-              >
-                All
-              </Checkbox>
-            </Stack>
-          </MenuList>
-        </Menu>
-      </HStack>
-      {placeInfo &&
+      <Box w="80%">
+        <HStack spacing="50px">
+          <Text fontSize="6xl" fontFamily="">
+            Food List
+          </Text>
+          <Menu>
+            <MenuButton as={Button} colorScheme="gray">
+              Filter
+            </MenuButton>
+            <MenuList>
+              <Stack>
+                {foodlist &&
+                  Object.keys(foodlist).map((category, idx) => {
+                    return (
+                      <Checkbox
+                        p={3}
+                        key={idx}
+                        isChecked={
+                          checkBoxState.hasOwnProperty(category) &&
+                          checkBoxState[category]
+                        }
+                        onChange={(e) =>
+                          handleChangeFilter({
+                            status: e.target.checked,
+                            category,
+                          })
+                        }
+                      >
+                        {category}
+                      </Checkbox>
+                    );
+                  })}
+                <Checkbox
+                  p={3}
+                  isChecked={checkAll}
+                  defaultIsChecked
+                  onChange={handleChangeAllFilter}
+                >
+                  All
+                </Checkbox>
+              </Stack>
+            </MenuList>
+          </Menu>
+        </HStack>
+      </Box>
+
+      {Object.keys(placeInfo).length !== 0 ? (
         Object.keys(placeInfo).map((category, idx) => {
           // if
           if (checkBoxState[category]) {
@@ -117,7 +124,16 @@ const FoodList = ({
               </Box>
             );
           }
-        })}
+        })
+      ) : (
+        <>
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </>
+      )}
     </Flex>
   );
 };

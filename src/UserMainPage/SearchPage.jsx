@@ -25,7 +25,6 @@ import {
 import FoodList from "../component/FoodList";
 import jwt from "jwt-decode";
 import FoodInfo from "../component/FoodInfo";
-import FoodInfo2 from "../component/FoodInfo2";
 import CategoryCardEdit from "../component/CategoryCardEdit";
 
 const SearchPage = () => {
