@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 
 // import { debounce } from "lodash";
 // import EmptyListPage from "./EmptyListPage";
-import { Route, Switch, useHistory, useParams, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import CategoryCard from "../component/CategoryCard";
 import FoodMap from "../component/FoodMap";
 import SearchBox from "../component/SearchBox";
@@ -20,7 +26,6 @@ import FoodInfo from "../component/FoodInfo";
 import CategoryCardEdit from "../component/CategoryCardEdit";
 
 const SearchPage = () => {
-
   const [mapResponse, setMapResponse] = useState({
     photo: null,
     name: null,
@@ -52,7 +57,7 @@ const SearchPage = () => {
         return value !== placeInfo.placeId;
       }),
     });
-    history.push(`${url}`)
+    history.push(`${url}`);
     setRefresh(!refresh);
     console.log({ refresh });
   };
@@ -74,6 +79,8 @@ const SearchPage = () => {
     setMapAPI(maps);
   };
 
+  const [emptyList, setEmptyList] = useState(false);
+
   useEffect(() => {
     console.log("Enter");
     const email = jwt(userId).email;
@@ -84,9 +91,13 @@ const SearchPage = () => {
 
         const foodlist = response.data.data.foodList;
         console.log({ foodlist });
+
+        if (Object.keys(foodlist).length === 0) {
+          setEmptyList(true);
+        }
         setFoodlist(foodlist);
-        setPlaceInfo({});
-        setUIState("finish");
+          setPlaceInfo({});
+          setUIState("finish");
       })
       .catch((err) => {
         setUIState("error");
@@ -212,6 +223,7 @@ const SearchPage = () => {
           <Flex justify="space-between" mt="100px">
             <FoodList
               foodlist={foodlist}
+              emptyList={emptyList}
               email={userEmail}
               handleDeleteItem={handleDeleteItem}
               handleDeleteCategory={handleDeleteCategory}
@@ -240,8 +252,11 @@ const SearchPage = () => {
         </Route>
         <Route path={`${path}/show/:placeId`}>
           <Stack mt="100px" spacing="25px">
-          <FoodInfo mapResponse={selectedPlace} />
-          <CategoryCardEdit removeCard={handleDeleteItem} placeInfo={selectedPlace}/>
+            <FoodInfo mapResponse={selectedPlace} />
+            <CategoryCardEdit
+              removeCard={handleDeleteItem}
+              placeInfo={selectedPlace}
+            />
           </Stack>
         </Route>
       </Switch>

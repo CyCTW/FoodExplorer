@@ -21,7 +21,7 @@ import {
   Image,
   HStack,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { updateNewFood } from "../utils";
 
@@ -35,6 +35,15 @@ const CategoryCard = ({ foodlist, email }) => {
   const [categoryList, setCategoryList] = useState(
     foodlist && Object.keys(foodlist)
   );
+  useEffect( () => {
+    if (foodlist) {
+      setCategoryList(Object.keys(foodlist))
+    }
+    else {
+      setCategoryList([])
+    }
+  }, [foodlist])
+  console.log({categoryList})
   const history = useHistory();
 
   const handleStoreFood = async () => {

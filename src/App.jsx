@@ -66,7 +66,7 @@ function App() {
             <SigninPage handleLogin={handleLogin}/>
           </Route>
           <Route key="2" path="/signup">
-            <SignupPage />
+            <SignupPage handleLogin={handleLogin}/>
           </Route>
           <Route key="3" path="/user/:userId">
             <SearchPage />

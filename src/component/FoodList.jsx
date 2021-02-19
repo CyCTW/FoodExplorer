@@ -19,6 +19,7 @@ import SkeletonCard from "./SkeletonCard";
 
 const FoodList = ({
   foodlist,
+  emptyList,
   checkBoxState,
   checkAll,
   handleDeleteItem,
@@ -152,6 +153,8 @@ const FoodList = ({
             return <></>;
           }
         })
+      ) : emptyList ? (
+        <Box>Your list is empty! Explore your food now!</Box>
       ) : (
         <>
           <SkeletonCard />

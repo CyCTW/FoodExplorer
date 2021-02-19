@@ -21,27 +21,53 @@ import {
 } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
-import { AuthSignup } from "../component/Auth";
+import { AuthGetJWT, AuthLogin, AuthSignup } from "../component/Auth";
 import { useState } from "react";
+import { createUser } from "../utils";
 
-const SignupPage = () => {
+const SignupPage = ({handleLogin}) => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
   let { path } = useRouteMatch();
   const [UIState, setUIState] = useState();
 
+  // const onSubmit = async (data) => {
+  //   console.log("data", data);
+  //   try {
+  //     setUIState("loading");
+      
+  //     history.push(`/confirm`);
+  //   } catch (error) {
+  //     setUIState("error");
+  //     console.log("Submit error", error);
+  //   }
+  // };
   const onSubmit = async (data) => {
-    console.log("data", data);
+    console.log(data);
+    setUIState("loading");
     try {
-      setUIState("loading");
       await AuthSignup({
         email: data.email,
         password: data.password,
       });
-      history.push(`/confirm`);
+      await AuthLogin({ email: data.email, password: data.password });
+      await createUser({ email: data.email});
+
+      AuthGetJWT()
+        .then((token) => {
+          console.log("token", token);
+          setUIState("success");
+          handleLogin({ token });
+          history.push(`/user/${token}`);
+        })
+        .catch((err) => {
+          console.log("error occured", err);
+        });
     } catch (error) {
+      console.log("error", error);
       setUIState("error");
-      console.log("Submit error", error);
+
+      return error;
     }
   };
   return (
