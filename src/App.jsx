@@ -1,4 +1,4 @@
-import LoginPage from "./LoginPage";
+import MainPage from "./MainPage";
 import {
   BrowserRouter,
   Redirect,
@@ -59,7 +59,7 @@ function App() {
             {isLogin  ? (
               <Redirect to={`/user/${JWTtoken}`} />
             ) : (
-              <LoginPage />
+              <MainPage />
             )}
           </Route>
           <Route key="1" path="/signin" exact>

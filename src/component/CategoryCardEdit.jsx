@@ -1,4 +1,5 @@
-import { Button, Center,  Stack, useToast } from "@chakra-ui/react";
+import { DeleteIcon, Icon, LinkIcon } from "@chakra-ui/icons";
+import { Button, Center, Stack, useToast } from "@chakra-ui/react";
 
 const CategoryCardEdit = ({ removeCard, placeInfo }) => {
   const toast = useToast();
@@ -39,18 +40,19 @@ const CategoryCardEdit = ({ removeCard, placeInfo }) => {
   };
   return (
     <Center mt={9}>
-      <Stack w="300px">
+      <Stack w="300px" spacing="20px">
         <Button colorScheme="blue" onClick={handleDirection}>
+          <LinkIcon mr={3} />
           Direction
         </Button>
         <Button
-          mt={5}
           colorScheme="red"
           variant="outline"
           onClick={() =>
             removeCard({ category: placeInfo.category, placeInfo })
           }
         >
+          <DeleteIcon mr={3}/>
           Remove from list
         </Button>
       </Stack>

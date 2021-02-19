@@ -10,6 +10,8 @@ import {
   IconButton,
   Stack,
   FormHelperText,
+  Heading,
+  HStack,
 } from "@chakra-ui/react";
 import { Link as ReachLink, useHistory } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -17,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { AuthGetJWT, AuthLogin } from "../component/Auth";
 import { useState } from "react";
 
-const SigninPage = ({handleLogin}) => {
+const SigninPage = ({ handleLogin }) => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
   const [UIState, setUIState] = useState();
@@ -32,7 +34,7 @@ const SigninPage = ({handleLogin}) => {
         .then((token) => {
           console.log("token", token);
           setUIState("success");
-          handleLogin({token});
+          handleLogin({ token });
           history.push(`/user/${token}`);
         })
         .catch((err) => {
@@ -47,18 +49,8 @@ const SigninPage = ({handleLogin}) => {
   };
   return (
     <>
-      <IconButton
-        m={5}
-        colorScheme="pink"
-        size="lg"
-        aria-label="Search database"
-        icon={<ArrowBackIcon />}
-        as={ReachLink}
-        to="/"
-      />
-
-      <Flex direction="column" align="center">
-        <Text fontSize={50}>Sign in</Text>
+      <Flex direction="column" align="center" mt="100px">
+        <Heading size="3xl">Sign in</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="30px">
             <FormControl
@@ -83,9 +75,20 @@ const SigninPage = ({handleLogin}) => {
             >
               <FormLabel>Password</FormLabel>
               <Input name="password" type="password" ref={register} />
-              {UIState === "error" && <FormHelperText color="red.500">Email or password invalid</FormHelperText>}
+              {UIState === "error" && (
+                <FormHelperText color="red.500">
+                  Email or password invalid
+                </FormHelperText>
+              )}
             </FormControl>
             <Checkbox w="300px">Remember me</Checkbox>
+            <HStack>
+              <Text>Do not have an account? </Text>
+              <Text color="blue.500" as={ReachLink} to="/signup">
+                Sign up
+              </Text>
+            </HStack>
+            
             <Button
               isLoading={UIState === "loading"}
               type="submit"
@@ -94,17 +97,8 @@ const SigninPage = ({handleLogin}) => {
             >
               Sign in
             </Button>
-            <Button as={ReachLink} w="300px">
-              Sign in with Facebook
-            </Button>
-            <Button as={ReachLink} w="300px">
-              Sign in with Google
-            </Button>
           </Stack>
         </form>
-        <Link as={ReachLink} to="/forgetpassword" mt={5} w="300px">
-          Forget password?
-        </Link>
       </Flex>
     </>
   );

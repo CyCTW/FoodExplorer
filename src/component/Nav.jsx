@@ -1,4 +1,9 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  HamburgerIcon,
+  MoonIcon,
+  SunIcon,
+} from "@chakra-ui/icons";
 import {
   Flex,
   HStack,
@@ -6,6 +11,12 @@ import {
   Image,
   IconButton,
   useColorMode,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../icon/logo_transparent.png";
@@ -54,22 +65,37 @@ const Nav = ({ isLogin, setIsLogin }) => {
           onClick={toggleColorMode}
           bgColor="none"
         ></IconButton>
-        {isLogin && isLogin ? (
-          <>
-            <Button colorScheme="red" onClick={handleLogout && handleLogout}>
-              Logout
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button colorScheme="blue" as={Link} to="/signup">
-              Signup
-            </Button>
-            <Button colorScheme="yellow" as={Link} to="/signin">
-              Signin
-            </Button>
-          </>
-        )}
+        <Menu mr={7}>
+          <MenuButton
+            as={IconButton}
+            icon={<HamburgerIcon />}
+            rightIcon={<ChevronDownIcon />}
+            p={5}
+            mr={3}
+          />
+
+          <MenuList>
+            {isLogin && isLogin ? (
+              <>
+                <MenuItem as={Link} to="/account">
+                  <Text fontSize="20px" fontFamily="sans-serif">Account</Text>
+                </MenuItem>
+                <MenuItem onClick={handleLogout && handleLogout}>
+                  <Text fontSize="20px">Logout</Text>
+                </MenuItem>
+              </>
+            ) : (
+              <>
+                <MenuItem as={Link} to="/signup">
+                  <Text fontSize="20px">Signup</Text>
+                </MenuItem>
+                <MenuItem as={Link} to="/signin">
+                  <Text fontSize="20px">Signin</Text>
+                </MenuItem>
+              </>
+            )}
+          </MenuList>
+        </Menu>
       </HStack>
     </Flex>
   );

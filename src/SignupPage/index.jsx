@@ -8,6 +8,9 @@ import {
   IconButton,
   Stack,
   FormHelperText,
+  Heading,
+  HStack,
+  Link,
 } from "@chakra-ui/react";
 import {
   Link as ReachLink,
@@ -43,20 +46,12 @@ const SignupPage = () => {
   };
   return (
     <>
-      <IconButton
-        m={5}
-        colorScheme="pink"
-        size="lg"
-        aria-label="goback"
-        icon={<ArrowBackIcon />}
-        as={ReachLink}
-        to="/"
-      />
-
       <Switch>
         <Route path={`${path}`} exact>
-          <Flex direction="column" align="center">
-            <Text fontSize={50}>Sign up</Text>
+          <Flex direction="column" align="center" mt="100px">
+            <Heading size="3xl" m={5}>
+              Sign up
+            </Heading>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing="30px">
                 <FormControl id="email" isRequired w="300px">
@@ -91,6 +86,12 @@ const SignupPage = () => {
                     </FormHelperText>
                   )}
                 </FormControl>
+                <HStack>
+                  <Text>Already has an account? </Text>
+                  <Text color="blue.500" as={ReachLink} to="/signin">
+                    Sign in
+                  </Text>
+                </HStack>
                 <Button
                   isLoading={UIState === "loading"}
                   type="submit"
@@ -98,12 +99,6 @@ const SignupPage = () => {
                   w="300px"
                 >
                   Sign up
-                </Button>
-                <Button as={ReachLink} w="300px">
-                  Sign up with Facebook
-                </Button>
-                <Button as={ReachLink} w="300px">
-                  Sign up with Google
                 </Button>
               </Stack>
             </form>

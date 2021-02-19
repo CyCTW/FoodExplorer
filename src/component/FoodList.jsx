@@ -1,4 +1,4 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import FoodCard from "./FoodCard";
 import SkeletonCard from "./SkeletonCard";
@@ -29,14 +30,31 @@ const FoodList = ({
 }) => {
   console.log({ placeInfo });
 
-  console.log({ checkBoxState });
-
+  useEffect(() => {
+    if (foodlist) {
+      Object.keys(foodlist).map((category) => {
+        setListState((state) => ({
+          ...state,
+          [category]: true,
+        }));
+      });
+    }
+  }, [foodlist]);
+  const [listState, setListState] = useState({});
+  console.log({ listState });
   const history = useHistory();
   let { url } = useRouteMatch();
 
   const handleClickCard = ({ placeInfo }) => {
     setSelectedPlace(placeInfo);
     history.push(`${url}/show/${placeInfo.placeId}`);
+  };
+  const handleClickCategory = ({ category }) => {
+    console.log("Category", category);
+    setListState((state) => ({
+      ...state,
+      [category]: !state[category],
+    }));
   };
 
   return (
@@ -93,8 +111,21 @@ const FoodList = ({
             return (
               <Box key={idx} w="80%">
                 <HStack>
-                  <Box m={5}>
-                    <Text fontSize="4xl">{category}</Text>
+                  <Box
+                    m={5}
+                    as={Button}
+                    variant="unstyled"
+                    onClick={() => handleClickCategory({ category })}
+                  >
+                    <HStack>
+                      <Text fontSize="4xl">{category}</Text>
+
+                      {listState[category] ? (
+                        <ChevronUpIcon />
+                      ) : (
+                        <ChevronDownIcon />
+                      )}
+                    </HStack>
                   </Box>
                   <IconButton
                     onClick={() => handleDeleteCategory({ category })}
@@ -102,6 +133,7 @@ const FoodList = ({
                   />
                 </HStack>
                 {placeInfo &&
+                  listState[category] &&
                   placeInfo[category].map((place, idx) => {
                     return (
                       <FoodCard
