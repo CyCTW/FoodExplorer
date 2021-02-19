@@ -45,6 +45,8 @@ const FoodMap = ({
   const { url } = useRouteMatch();
 
   const handleClickPlaceCard = ({ placeInfo }) => {
+    placeInfo["weekday"] = placeInfo.opening_hours.weekday_text
+
     setSelectedPlace(placeInfo);
    
     history.push(`${url}/show/${placeInfo.placeId}`);

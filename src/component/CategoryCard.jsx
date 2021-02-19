@@ -48,6 +48,7 @@ const CategoryCard = ({ foodlist, email }) => {
 
   const handleStoreFood = async () => {
     // update food
+    setUIState("loading")
     await updateNewFood({
       email,
       category: selectedCategory,
@@ -57,6 +58,8 @@ const CategoryCard = ({ foodlist, email }) => {
           ? foodlist[selectedCategory].placeIds
           : [],
     });
+    setUIState("finish")
+
     history.push("/");
   };
   console.log({ selectedCategory });
@@ -73,6 +76,7 @@ const CategoryCard = ({ foodlist, email }) => {
     };
     reader.readAsDataURL(img);
   };
+  const [UIState, setUIState] = useState("finish");
 
   return (
     <Flex direction="column" align="center" mt={5}>
@@ -129,7 +133,9 @@ const CategoryCard = ({ foodlist, email }) => {
                   <Button
                     colorScheme="cyan"
                     as={Link}
+                    isLoading={UIState === "loading"}
                     onClick={async () => {
+                      setUIState("loading");
                       setCategoryList([...categoryList, userInput]);
                       setSelectedCategory(userInput);
 
@@ -140,6 +146,8 @@ const CategoryCard = ({ foodlist, email }) => {
                         originFoodIds: [],
                         icon: imgURI,
                       });
+                      setUIState("finish");
+
                       onClose();
                     }}
                   >
@@ -151,7 +159,7 @@ const CategoryCard = ({ foodlist, email }) => {
           </Modal>
         </MenuList>
       </Menu>
-      <Button onClick={handleStoreFood} colorScheme="blue" mt={10} w="300px">
+      <Button onClick={handleStoreFood} isLoading={UIState === "loading"} colorScheme="blue" mt={10} w="300px">
         Save to List
       </Button>
     </Flex>
