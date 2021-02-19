@@ -1,20 +1,22 @@
 import { StarIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 
 const PlaceCard = ({ placeInfo, handleClickPlaceCard }) => {
   return (
     <Box
       border="3px solid"
       borderRadius="10px"
-      p={4}
+      p={7}
+      w="200px"
       as="button"
       color="white"
       bgColor="black"
-      onClick={() => handleClickPlaceCard({placeInfo})}
+      style={{opacity: "0.8"}}
+      onClick={() => handleClickPlaceCard({ placeInfo })}
     >
       <Flex justify="space-between" align="center">
         <Stack spacing="3px">
-          <Text>{placeInfo && placeInfo.name}</Text>
+          <Text fontSize="20px">{placeInfo && placeInfo.name}</Text>
           <HStack>
             <StarIcon mr={3} color="yellow.200" />
             <Text>{placeInfo && placeInfo.rating}</Text>

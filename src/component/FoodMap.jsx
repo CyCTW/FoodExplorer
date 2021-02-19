@@ -1,54 +1,74 @@
 import { Box } from "@chakra-ui/react";
 import GoogleMapReact from "google-map-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { MapAPIKey } from "../key";
 import FoodMarker from "./FoodMarker";
 
-const FoodMap = ({ onMapLoaded, placeInfo, placeIcons, checkBoxState, setSelectedPlace }) => {
-  // const { mapAPILoaded, mapAPI } = useContext(MapContext);
-  const mprops = {
+const FoodMap = ({
+  onMapLoaded,
+  placeInfo,
+  placeIcons,
+  checkBoxState,
+  setSelectedPlace,
+}) => {
+  const [currentPos, setCurrentPos] = useState({
     center: {
       lat: 25.04,
       lng: 121.5,
     },
     zoom: 13,
-  };
-  console.log("Enter Foodmap", { placeInfo });
-  console.log({ placeIcons });
-  console.log("???");
+  });
+  const defaultPosition = {
+    lat: 25.04,
+    lng: 121.5
+  }
 
   const [selectedPlaceMark, setSelectedPlaceMark] = useState({
     category: "null",
     idx: -1,
   });
 
-  const handleClickPlace = ({ category, idx }) => {
+  const handleClickPlace = ({ placeInfo, category, idx }) => {
     setSelectedPlaceMark({ category, idx });
-    console.log("Click");
+    const lat = placeInfo.geometry.location.lat();
+    const lng = placeInfo.geometry.location.lng()
+    setCurrentPos({
+      ...currentPos,
+      center: {
+        lat: placeInfo.geometry.location.lat(),
+        lng: placeInfo.geometry.location.lng()
+      }
+    })
   };
-  // console.log({ selectedPlace });
   const history = useHistory();
-  const {url} = useRouteMatch();
-  
-  const handleClickPlaceCard  = ({placeInfo}) => {
-    setSelectedPlace(placeInfo)
-    history.push(`${url}/show/${placeInfo.placeId}`)
+  const { url } = useRouteMatch();
 
-  }
+  const handleClickPlaceCard = ({ placeInfo }) => {
+    setSelectedPlace(placeInfo);
+   
+    history.push(`${url}/show/${placeInfo.placeId}`);
+  };
   return (
     <Box
-      style={{ height: "100vh", width: "50%", position: "fixed", left: "50%", top: "60px" }}
+      style={{
+        height: "100vh",
+        width: "50%",
+        position: "fixed",
+        left: "50%",
+        top: "60px",
+      }}
     >
       <GoogleMapReact
         bootstrapURLKeys={{
           key: MapAPIKey,
           libraries: ["places"], // 要在這邊放入我們要使用的 API
         }}
-        defaultCenter={mprops.center}
-        defaultZoom={mprops.zoom}
+        defaultCenter={defaultPosition}
+        defaultZoom={currentPos.zoom}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={onMapLoaded}
+        center={currentPos.center}
       >
         {placeInfo &&
           Object.keys(placeInfo).map((category) => {
@@ -70,6 +90,8 @@ const FoodMap = ({ onMapLoaded, placeInfo, placeIcons, checkBoxState, setSelecte
                   ></FoodMarker>
                 );
               });
+            } else {
+              return <></>
             }
           })}
       </GoogleMapReact>

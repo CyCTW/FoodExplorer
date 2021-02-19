@@ -7,14 +7,14 @@ import {
   MenuButton,
   MenuList,
   Stack,
+  Box,
 } from "@chakra-ui/react";
-import {  SearchIcon } from "@chakra-ui/icons";
-import {  useEffect,  useState } from "react";
+import { SearchIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import "../style.css"
+import "../style.css";
 
 const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
-  // const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
 
   const [inputText, setInputText] = useState();
   const [autocompleteSearch, setAutocompleteSearch] = useState([]);
@@ -58,12 +58,11 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
     setInputText(e.target.value);
   };
 
-  
-
   // handle user click autocomplete search result
   const handleClickItem = async (e) => {
     console.log(e);
-    // setMenuOpen(true);
+    setInputText(e.target.innerHTML);
+    setMenuOpen(false);
 
     const placeId = e.target.getAttribute("dataid");
 
@@ -95,8 +94,6 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
           isOpen: results.opening_hours && results.opening_hours.isOpen(),
           geometry: results.geometry && results.geometry,
         });
-        setInputText(e.target.innerHTML);
-        setMenuOpen(false);
 
         history.push(`${url}/add/${placeId}`);
       }
@@ -109,14 +106,23 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
     setMenuOpen(true);
   };
   const handleBlur = () => {
-    // setMenuOpen(false);
+    setMenuOpen(false);
   };
   console.log({ menuOpen });
   return (
-    <Flex w="300px" m={2}>
+    <Flex
+      w="300px"
+      m={2}
+      style={{ position: "fixed", top: "5px", zIndex: "2" }}
+    >
       <Menu isOpen={menuOpen}>
         {/* <Input value={inputText && inputText} /> */}
-        <MenuButton as={IconButton} icon={<SearchIcon />} mr={2} colorScheme="red"/>
+        <MenuButton
+          as={IconButton}
+          icon={<SearchIcon />}
+          mr={2}
+          colorScheme="red"
+        />
 
         <Input
           //   border="2px"
@@ -131,20 +137,19 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
           onBlur={handleBlur}
           value={inputText && inputText}
           w="300px"
-          style={{color: "black"}}
+          style={{ color: "black" }}
         />
 
         <MenuList>
-          {autocompleteSearch &&
-            inputText &&
+          {autocompleteSearch && inputText ? (
             autocompleteSearch.map((res, idx) => {
               return (
-                <Stack m={4} key={idx} w="300px">
+                <Stack key={idx} w="300px" m={5}>
                   <Text
                     dataid={res.place_id}
                     fontSize="xl"
                     align="left"
-                    onClick={handleClickItem}
+                    onMouseDown={handleClickItem}
                     as="button"
                   >
                     {res.structured_formatting.main_text}
@@ -154,7 +159,12 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
                   </Text>
                 </Stack>
               );
-            })}
+            })
+          ) : (
+            <Box w="300px" m={5}>
+              <Text style={{ color: "gray" }}>No results</Text>
+            </Box>
+          )}
         </MenuList>
       </Menu>
     </Flex>

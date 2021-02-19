@@ -1,13 +1,11 @@
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Flex,
   HStack,
   Button,
   Image,
   IconButton,
   useColorMode,
-  Switch,
 } from "@chakra-ui/react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../icon/logo_transparent.png";
@@ -26,11 +24,17 @@ const Nav = ({ isLogin, setIsLogin }) => {
   };
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Flex justify="space-between" bgColor="yellow.400" height="60px" style={{
-      position: "fixed",
-      width: "100%", 
-      top: 0
-      }}>
+    <Flex
+      justify="space-between"
+      bgColor="yellow.400"
+      height="60px"
+      style={{
+        position: "fixed",
+        width: "100%",
+        top: 0,
+        zIndex: "1",
+      }}
+    >
       <HStack>
         <IconButton
           variant="link"

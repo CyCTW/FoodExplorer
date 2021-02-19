@@ -1,7 +1,6 @@
 import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
@@ -10,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const FoodCard = ({ placeInfo, category, index, handleDeleteItem, handleClickCard }) => {
+const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) => {
   /* placeInfo: 
     - formatted_address
     - formatted_phone_number
@@ -54,7 +53,10 @@ const FoodCard = ({ placeInfo, category, index, handleDeleteItem, handleClickCar
         </HStack>
         <IconButton
           icon={<DeleteIcon />}
-          onClick={() => handleDeleteItem({ category, placeInfo })}
+          onClick={(e) => { 
+            e.stopPropagation();
+            handleDeleteItem({ category, placeInfo })
+          }}
         />
       </Flex>
     </Box>

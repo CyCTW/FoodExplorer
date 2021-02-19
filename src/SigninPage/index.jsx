@@ -15,7 +15,6 @@ import { Link as ReachLink, useHistory } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { AuthGetJWT, AuthLogin } from "../component/Auth";
-import { getUserFoodList } from "../utils";
 import { useState } from "react";
 
 const SigninPage = ({handleLogin}) => {

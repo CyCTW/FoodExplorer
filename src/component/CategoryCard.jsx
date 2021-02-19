@@ -7,7 +7,6 @@ import {
   Stack,
   Text,
   MenuItem,
-  ButtonGroup,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -25,7 +24,6 @@ import {
 import { useRef, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { updateNewFood } from "../utils";
-import ramen from "../icon/ramen.png";
 
 const CategoryCard = ({ foodlist, email }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,7 +44,7 @@ const CategoryCard = ({ foodlist, email }) => {
       category: selectedCategory,
       foodId: placeId,
       originFoodIds:
-        Object.keys(foodlist).indexOf(selectedCategory) != -1
+        Object.keys(foodlist).indexOf(selectedCategory) !== -1
           ? foodlist[selectedCategory].placeIds
           : [],
     });
@@ -112,7 +110,11 @@ const CategoryCard = ({ foodlist, email }) => {
                       >
                         Choose an Icon
                       </Button>
-                      <Image border="solid 3px" src={imgURI && imgURI} boxSize="50px" />
+                      <Image
+                        border="solid 3px"
+                        src={imgURI && imgURI}
+                        boxSize="50px"
+                      />
                     </HStack>
                   </FormControl>
                   <Button

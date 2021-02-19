@@ -1,4 +1,4 @@
-import { DeleteIcon, Icon, StarIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -6,26 +6,18 @@ import {
   Flex,
   HStack,
   IconButton,
-  Image,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useHistory, useParams, useRouteMatch } from "react-router-dom";
-import { getPlaceDetails } from "../utils";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import FoodCard from "./FoodCard";
 import SkeletonCard from "./SkeletonCard";
 
 const FoodList = ({
   foodlist,
-  email,
   checkBoxState,
   checkAll,
   handleDeleteItem,
@@ -97,12 +89,13 @@ const FoodList = ({
 
       {Object.keys(placeInfo).length !== 0 ? (
         Object.keys(placeInfo).map((category, idx) => {
-          // if
           if (checkBoxState[category]) {
             return (
               <Box key={idx} w="80%">
                 <HStack>
-                  <Text fontSize="4xl">{category}</Text>
+                  <Box m={5}>
+                    <Text fontSize="4xl">{category}</Text>
+                  </Box>
                   <IconButton
                     onClick={() => handleDeleteCategory({ category })}
                     icon={<DeleteIcon />}
@@ -123,6 +116,8 @@ const FoodList = ({
                   })}
               </Box>
             );
+          } else {
+            return <></>;
           }
         })
       ) : (

@@ -1,7 +1,5 @@
 import {
   Button,
-  Checkbox,
-  Link,
   Flex,
   FormControl,
   FormLabel,
@@ -20,14 +18,13 @@ import {
 } from "react-router-dom";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
-import { AuthGetJWT, AuthLogin, AuthSignup } from "../component/Auth";
-import { createUser } from "../utils";
+import { AuthSignup } from "../component/Auth";
 import { useState } from "react";
 
 const SignupPage = () => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
   const [UIState, setUIState] = useState();
 
   const onSubmit = async (data) => {

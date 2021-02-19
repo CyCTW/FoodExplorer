@@ -1,4 +1,3 @@
-import { MapProvider } from "./component/MapContext";
 import LoginPage from "./LoginPage";
 import {
   BrowserRouter,
@@ -11,13 +10,11 @@ import SignupPage from "./SignupPage";
 import SigninPage from "./SigninPage";
 import SearchPage from "./UserMainPage/SearchPage";
 import Nav from "./component/Nav";
-import { createTodo, createUser, decodeToken, readAll } from "./utils";
+import {  createUser, decodeToken } from "./utils";
 import { useEffect, useState } from "react";
 import {
   AuthConfirm,
   AuthGetJWT,
-  AuthLogin,
-  AuthLogout,
 } from "./component/Auth";
 import Confirm from "./component/Confirm";
 
@@ -29,7 +26,6 @@ function App() {
   const onFindToken = ({ confirmToken }) => {
     setConfirmToken(confirmToken);
   };
-  const history = useHistory();
 
   // Check #confirm_token exists
   useEffect(async () => {

@@ -1,4 +1,3 @@
-import { useRadio } from "@chakra-ui/react";
 import GoTrue from "gotrue-js";
 
 // Instantiate the GoTrue auth client with an optional configuration

@@ -11,17 +11,12 @@ const FoodMarker = ({
   handleClickPlace,
   handleClickPlaceCard
 }) => {
-  // console.log({ lat });
-  // console.log({ lng });
-
-  // console.log(selectedPlace.idx === idx && selectedPlace.category === category)
-  // console.log({idx})
   
   return (
     <>
       <Button
         variant="unstyled"
-        onClick={() => handleClickPlace({ category, idx })}
+        onClick={() => handleClickPlace({ placeInfo, category, idx })}
       >
         <HStack>
           <Image src={icon} boxSize="20px" />

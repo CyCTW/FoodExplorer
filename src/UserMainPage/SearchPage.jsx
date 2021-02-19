@@ -1,17 +1,9 @@
-import {
-  Center,
-  Flex,
-} from "@chakra-ui/react";
+import { Center, Flex, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 // import { debounce } from "lodash";
 // import EmptyListPage from "./EmptyListPage";
-import {
-  Route,
-  Switch,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { Route, Switch, useHistory, useParams, useRouteMatch } from "react-router-dom";
 import CategoryCard from "../component/CategoryCard";
 import FoodMap from "../component/FoodMap";
 import SearchBox from "../component/SearchBox";
@@ -28,11 +20,6 @@ import FoodInfo from "../component/FoodInfo";
 import CategoryCardEdit from "../component/CategoryCardEdit";
 
 const SearchPage = () => {
-  // useContext: mapApiLoaded
-  //   const { mapAPILoaded, mapInstance, mapAPI } = useContext(MapContext);
-
-  //   const [inputText, setInputText] = useState();
-  //   const [autocompleteSearch, setAutocompleteSearch] = useState([]);
 
   const [mapResponse, setMapResponse] = useState({
     photo: null,
@@ -46,24 +33,26 @@ const SearchPage = () => {
   const [mapInstance, setMapInstance] = useState();
   const [mapAPI, setMapAPI] = useState();
 
-  let { userId } = useParams();
+  const { userId } = useParams();
   const [UIState, setUIState] = useState("loading");
   const [foodlist, setFoodlist] = useState();
   const [userEmail, setUserEmail] = useState();
   const [refresh, setRefresh] = useState(false);
 
-  let { path, url } = useRouteMatch();
+  const { path, url } = useRouteMatch();
+  const history = useHistory();
 
   const handleDeleteItem = async ({ category, placeInfo }) => {
-    console.log("Click!");
+    console.log("Delete Item!");
     // Delete food
     await updateNewFood({
       email: userEmail,
       category,
       originFoodIds: foodlist[category].placeIds.filter((value, idx, arr) => {
-        return value !== placeInfo.placeId; 
+        return value !== placeInfo.placeId;
       }),
     });
+    history.push(`${url}`)
     setRefresh(!refresh);
     console.log({ refresh });
   };
@@ -115,6 +104,7 @@ const SearchPage = () => {
 
   const onFinishLoaded = ({ results, placeId, category }) => {
     results["placeId"] = placeId;
+    results["category"] = category;
     console.log({ results });
     setPlaceInfo((currentState) => ({
       ...currentState,
@@ -132,8 +122,8 @@ const SearchPage = () => {
   const [checkAll, setCheckAll] = useState(true);
   const [selectedPlace, setSelectedPlace] = useState();
 
-  useEffect( () => {
-    console.log({checkBoxState})
+  useEffect(() => {
+    console.log({ checkBoxState });
     if (foodlist && Object.keys(checkBoxState).length === 0) {
       // initialize
       setCheckboxState(
@@ -144,21 +134,20 @@ const SearchPage = () => {
           }),
           {}
         )
-      )
+      );
     }
-  }, [foodlist])
+  }, [foodlist]);
   const handleChangeFilter = ({ status, category }) => {
-
     const obj = {
       ...checkBoxState,
       [category]: status,
-    }
+    };
     setCheckboxState(obj);
-    const allBool = Object.keys(obj).every((cur) => obj[cur])
-    setCheckAll( allBool ) 
+    const allBool = Object.keys(obj).every((cur) => obj[cur]);
+    setCheckAll(allBool);
   };
   const handleChangeAllFilter = (e) => {
-    setCheckboxState( state => 
+    setCheckboxState((state) =>
       Object.keys(state).reduce(
         (acc, cur) => ({
           ...acc,
@@ -168,7 +157,7 @@ const SearchPage = () => {
       )
     );
     setCheckAll(!checkAll);
-    console.log("ALl Clicked!!")
+    console.log("ALl Clicked!!");
   };
   console.log({ placeInfo });
   useEffect(() => {
@@ -180,12 +169,20 @@ const SearchPage = () => {
       UIState === "finish"
     ) {
       console.log({ foodlist });
-      Object.keys(foodlist).map((category, idx) => {
+      Object.keys(foodlist).forEach((category) => {
         setPlaceIcons((currentState) => ({
           ...currentState,
           [category]: foodlist[category].icon,
         }));
-        foodlist[category].placeIds.map((placeId, idx) => {
+        setPlaceInfo((currentState) => ({
+          ...currentState,
+          [category]: [
+            ...(currentState.hasOwnProperty(category)
+              ? currentState[category]
+              : []),
+          ],
+        }));
+        foodlist[category].placeIds.forEach((placeId) => {
           getPlaceDetails({
             mapAPILoaded,
             mapAPI,
@@ -201,7 +198,7 @@ const SearchPage = () => {
 
   console.log({ UIState });
   return (
-    <Flex direction="column">
+    <>
       <Center>
         <SearchBox
           setMapResponse={setMapResponse}
@@ -212,7 +209,7 @@ const SearchPage = () => {
       </Center>
       <Switch>
         <Route path={`${path}`} exact>
-          <Flex justify="space-between">
+          <Flex justify="space-between" mt="100px">
             <FoodList
               foodlist={foodlist}
               email={userEmail}
@@ -236,15 +233,19 @@ const SearchPage = () => {
           </Flex>
         </Route>
         <Route path={`${path}/add/:placeId`}>
-          <FoodInfo mapResponse={mapResponse} />
-          <CategoryCard foodlist={foodlist} email={userEmail} />
+          <Stack mt="100px" spacing="25px">
+            <FoodInfo mapResponse={mapResponse} />
+            <CategoryCard foodlist={foodlist} email={userEmail} />
+          </Stack>
         </Route>
         <Route path={`${path}/show/:placeId`}>
+          <Stack mt="100px" spacing="25px">
           <FoodInfo mapResponse={selectedPlace} />
-          <CategoryCardEdit />
+          <CategoryCardEdit removeCard={handleDeleteItem} placeInfo={selectedPlace}/>
+          </Stack>
         </Route>
       </Switch>
-    </Flex>
+    </>
   );
 };
 export default SearchPage;
