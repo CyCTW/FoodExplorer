@@ -9,6 +9,19 @@
 
 [Youtube](https://youtu.be/Cu9txd9VsfQ)
 
+## Structure
+![](https://i.imgur.com/H6ug4zL.png)
+
+### Netlify Identity
+- store user email and password, support for lots of common feature like *forget password, send account confirm letter*, etc.
+### Netlify Function:
+- Similar to AWS lambda function, write simple code to build custom API and deploy on netlify.
+### Fauna DB:
+- A popular NOSQL database.
+
+### GoogleMapAPI:
+- Get place information.
+
 ## How to use
 
 ### Install the needed dependency
