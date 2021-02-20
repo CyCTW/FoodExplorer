@@ -1,7 +1,10 @@
 import { DeleteIcon, Icon, LinkIcon } from "@chakra-ui/icons";
 import { Button, Center, Stack, useToast } from "@chakra-ui/react";
+import { useState } from "react";
 
 const CategoryCardEdit = ({ removeCard, placeInfo }) => {
+  const [UIState, setUIState] = useState("success");
+
   const toast = useToast();
 
   const getPosition = (encodedAddress) => {
@@ -38,25 +41,27 @@ const CategoryCardEdit = ({ removeCard, placeInfo }) => {
 
     getPosition(encodedAddress);
   };
+ 
   return (
-    <Center mt={9}>
-      <Stack w="300px" spacing="20px">
-        <Button colorScheme="blue" onClick={handleDirection}>
-          <LinkIcon mr={3} />
-          Direction
-        </Button>
-        <Button
-          colorScheme="red"
-          variant="outline"
-          onClick={() =>
-            removeCard({ category: placeInfo.category, placeInfo })
-          }
-        >
-          <DeleteIcon mr={3}/>
-          Remove from list
-        </Button>
-      </Stack>
-    </Center>
+    <>
+      <Button bgColor="#febc00" color="black" mt="40px" onClick={handleDirection}>
+        <LinkIcon mr={3} />
+        Direction
+      </Button>
+      <Button
+        color="black" variant="unstyled" mt="10px" border="1px solid black"
+        onClick={() => {
+          setUIState("loading")
+          removeCard({ category: placeInfo.category, placeInfo, setCardUIState: setUIState })
+
+
+        }}
+        isLoading={UIState === "loading"}
+      >
+        <DeleteIcon mr={3} />
+        Remove from list
+      </Button>
+    </>
   );
 };
 export default CategoryCardEdit;

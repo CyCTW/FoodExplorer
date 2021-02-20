@@ -35,20 +35,19 @@ const CategoryCard = ({ foodlist, email }) => {
   const [categoryList, setCategoryList] = useState(
     foodlist && Object.keys(foodlist)
   );
-  useEffect( () => {
+  useEffect(() => {
     if (foodlist) {
-      setCategoryList(Object.keys(foodlist))
+      setCategoryList(Object.keys(foodlist));
+    } else {
+      setCategoryList([]);
     }
-    else {
-      setCategoryList([])
-    }
-  }, [foodlist])
-  console.log({categoryList})
+  }, [foodlist]);
+  console.log({ categoryList });
   const history = useHistory();
 
   const handleStoreFood = async () => {
     // update food
-    setUIState("loading")
+    setUIState("loading");
     await updateNewFood({
       email,
       category: selectedCategory,
@@ -58,7 +57,7 @@ const CategoryCard = ({ foodlist, email }) => {
           ? foodlist[selectedCategory].placeIds
           : [],
     });
-    setUIState("finish")
+    setUIState("finish");
 
     history.push("/");
   };
@@ -80,7 +79,6 @@ const CategoryCard = ({ foodlist, email }) => {
 
   return (
     <Flex direction="column" align="center" mt={5}>
-      <Text fontSize="20px">Category</Text>
 
       <Menu mt={5}>
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />} w="300px">
@@ -95,7 +93,7 @@ const CategoryCard = ({ foodlist, email }) => {
                 </MenuItem>
               );
             })}
-          <MenuItem borderTop="solid 2px gray" onClick={onOpen}>
+          <MenuItem borderTop="solid 2px #f4f4f4" onClick={onOpen}>
             + Create category
           </MenuItem>
           <Modal isOpen={isOpen} onClose={onClose}>
@@ -124,14 +122,15 @@ const CategoryCard = ({ foodlist, email }) => {
                         Choose an Icon
                       </Button>
                       <Image
-                        border="solid 3px"
+                        border="solid 1px #f4f4f4"
+                        borderRadius="8px"
                         src={imgURI && imgURI}
                         boxSize="50px"
                       />
                     </HStack>
                   </FormControl>
                   <Button
-                    colorScheme="cyan"
+                    bgColor="#febc00"
                     as={Link}
                     isLoading={UIState === "loading"}
                     onClick={async () => {
@@ -159,7 +158,15 @@ const CategoryCard = ({ foodlist, email }) => {
           </Modal>
         </MenuList>
       </Menu>
-      <Button onClick={handleStoreFood} isLoading={UIState === "loading"} colorScheme="blue" mt={10} w="300px">
+      <Button
+        onClick={handleStoreFood}
+        isLoading={UIState === "loading"}
+        variant="unstyled"
+        bgColor="black"
+        color="white"
+        mt={10}
+        w="300px"
+      >
         Save to List
       </Button>
     </Flex>

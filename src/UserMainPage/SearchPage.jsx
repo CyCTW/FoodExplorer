@@ -1,8 +1,6 @@
-import { Center, Flex, Stack } from "@chakra-ui/react";
+import { Center, Flex, Stack, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-// import { debounce } from "lodash";
-// import EmptyListPage from "./EmptyListPage";
 import {
   Route,
   Switch,
@@ -47,7 +45,9 @@ const SearchPage = () => {
   const { path, url } = useRouteMatch();
   const history = useHistory();
 
-  const handleDeleteItem = async ({ category, placeInfo }) => {
+  const toast = useToast();
+
+  const handleDeleteItem = async ({ category, placeInfo, setCardUIState }) => {
     console.log("Delete Item!");
     // Delete food
     await updateNewFood({
@@ -57,9 +57,19 @@ const SearchPage = () => {
         return value !== placeInfo.placeId;
       }),
     });
-    history.push(`${url}`);
     setRefresh(!refresh);
+
+    history.push(`${url}`);
     console.log({ refresh });
+    toast({
+      title: `Delete successfully!`,
+      description: `${placeInfo.name} have been deleted`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "top"
+    })
+    setCardUIState("success")
   };
 
   const handleDeleteCategory = async ({ category }) => {
@@ -83,6 +93,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     console.log("Enter");
+    setUIState("loading")
     const email = jwt(userId).email;
     setUserEmail(email);
     getUserFoodList(email)
@@ -96,8 +107,9 @@ const SearchPage = () => {
           setEmptyList(true);
         }
         setFoodlist(foodlist);
-          setPlaceInfo({});
-          setUIState("finish");
+        setPlaceInfo({});
+        
+        setUIState("finish");
       })
       .catch((err) => {
         setUIState("error");
@@ -220,7 +232,7 @@ const SearchPage = () => {
       </Center>
       <Switch>
         <Route path={`${path}`} exact>
-          <Flex justify="space-between" mt="100px">
+          <Flex justify="space-between" mt="70px">
             <FoodList
               foodlist={foodlist}
               emptyList={emptyList}
@@ -233,6 +245,7 @@ const SearchPage = () => {
               checkAll={checkAll}
               placeInfo={placeInfo}
               setSelectedPlace={setSelectedPlace}
+              FoodListUIState={UIState}
             />
             <FoodMap
               foodlist={foodlist}
@@ -246,17 +259,27 @@ const SearchPage = () => {
         </Route>
         <Route path={`${path}/add/:placeId`}>
           <Stack mt="100px" spacing="25px">
-            <FoodInfo mapResponse={mapResponse} />
-            <CategoryCard foodlist={foodlist} email={userEmail} />
+            <FoodInfo
+              mapResponse={mapResponse}
+              isSave={false}
+              foodlist={foodlist}
+              email={userEmail}
+            />
+            {/* <CategoryCard foodlist={foodlist} email={userEmail} /> */}
           </Stack>
         </Route>
         <Route path={`${path}/show/:placeId`}>
           <Stack mt="100px" spacing="25px">
-            <FoodInfo mapResponse={selectedPlace} />
-            <CategoryCardEdit
+            <FoodInfo
+              mapResponse={selectedPlace}
+              isSave={true}
               removeCard={handleDeleteItem}
               placeInfo={selectedPlace}
             />
+            {/* <CategoryCardEdit
+              removeCard={handleDeleteItem}
+              placeInfo={selectedPlace}
+            /> */}
           </Stack>
         </Route>
       </Switch>

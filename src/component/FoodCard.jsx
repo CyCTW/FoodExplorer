@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
 
 const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) => {
   /* placeInfo: 
@@ -22,10 +23,13 @@ const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) =>
     */
 
   console.log(placeInfo);
+  const [UIState, setUIState] = useState("success")
   return (
     <Box
-      border="3px solid"
+      border="2px solid #e8e8e8"
       borderRadius="10px"
+      boxShadow="0px 5px 14px #adadad"
+      bgColor="white"
       p={10}
       w={["50%", "100%"]}
       mt={5}
@@ -37,26 +41,34 @@ const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) =>
           <Image
             src={placeInfo && placeInfo.photos && placeInfo.photos[0].getUrl()}
             boxSize="100px"
+            borderRadius="6px"
           />
           <Stack spacing="3px">
-            <Text>{placeInfo && placeInfo.name}</Text>
+            <Text mb={2} fontFamily="Microsoft JhengHei" fontSize="xl" fontWeight="700" letterSpacing="2px">{placeInfo && placeInfo.name}</Text>
             <HStack>
-              <StarIcon mr={3} color="yellow.200" />
+              <StarIcon  color="#febc00" />
               <Text>{placeInfo && placeInfo.rating}</Text>
             </HStack>
+
             {placeInfo && placeInfo.opening_hours.isOpen() ? (
               <Text color="green.200">Open now</Text>
             ) : (
               <Text color="red.500">Close</Text>
-            )}
+            )} 
+            {/* Fix width */}
           </Stack>
         </HStack>
         <IconButton
           icon={<DeleteIcon />}
+          isLoading={UIState === "loading"}
           onClick={(e) => { 
+            setUIState("loading")
             e.stopPropagation();
-            handleDeleteItem({ category, placeInfo })
+            handleDeleteItem({ category, placeInfo, setCardUIState: setUIState })
           }}
+          variant="unstyled"
+          color="#a3a3a3"
+
         />
       </Flex>
     </Box>

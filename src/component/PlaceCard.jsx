@@ -6,19 +6,19 @@ const PlaceCard = ({ placeInfo, handleClickPlaceCard }) => {
     <Box
       border="3px solid"
       borderRadius="10px"
-      p={7}
+      p={5}
       w="200px"
       as="button"
       color="white"
       bgColor="black"
-      style={{opacity: "0.8"}}
+      // style={{opacity: "0.8"}}
       onClick={() => handleClickPlaceCard({ placeInfo })}
     >
       <Flex justify="space-between" align="center">
         <Stack spacing="3px">
-          <Text fontSize="20px">{placeInfo && placeInfo.name}</Text>
+          <Text mb={2} fontSize="20px" letterSpacing="2px" fontWeight="700">{placeInfo && placeInfo.name}</Text>
           <HStack>
-            <StarIcon mr={3} color="yellow.200" />
+            <StarIcon color="#febc00" />
             <Text>{placeInfo && placeInfo.rating}</Text>
           </HStack>
           {placeInfo && placeInfo.opening_hours.isOpen() ? (

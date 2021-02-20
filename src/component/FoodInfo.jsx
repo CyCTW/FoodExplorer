@@ -12,15 +12,27 @@ import {
   IconButton,
   Spinner,
   Center,
+  Flex,
 } from "@chakra-ui/react";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  DeleteIcon,
+  LinkIcon,
   StarIcon,
 } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-const FoodInfo = ({ mapResponse }) => {
+import CategoryCardEdit from "./CategoryCardEdit";
+import CategoryCard from "./CategoryCard";
+const FoodInfo = ({
+  mapResponse,
+  isSave,
+  foodlist,
+  email,
+  removeCard,
+  placeInfo,
+}) => {
   // photo, name, rating, address, isOpen, businessStatus,
   console.log(mapResponse);
   const [photoIdx, setPhotoIdx] = useState(0);
@@ -30,76 +42,114 @@ const FoodInfo = ({ mapResponse }) => {
   }, [mapResponse]);
   //   const photoLength = mapResponse.photos.length;
   console.log(photoIdx);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     // <Flex direction="column" align="center">
-    <Stack spacing="30px" align="center" mt={5}>
-      <HStack>
-        <IconButton
-          colorScheme="cyan"
-          onClick={() => {
-            if (photoIdx > 0) {
-              setPhotoIdx((idx) => idx - 1);
-            }
-          }}
-          icon={<ChevronLeftIcon />}
-        />
+    <>
+      <div
+        style={{
+          position: "fixed",
+          borderLeft: "2px solid #cfcfcf",
+          left: "50%",
+          height: "60vh",
+        }}
+      ></div>
+      <Flex justify="space-evenly" mt="100px">
+        <Flex direction="column" mt={5}>
+          <Text fontSize="30px" fontWeight="700" letterSpacing="2px">
+            {mapResponse.name && mapResponse.name}
+          </Text>
+          <Box>
+            <StarIcon mr={3} color="#febc00" />
+            {mapResponse.rating && mapResponse.rating}
+          </Box>
 
-        <Image
-          src={mapResponse.photos && mapResponse.photos[photoIdx].getUrl()}
-          fallback={
-            <Center as={Box} boxSize="300px">
-              <Spinner size="xl" />
-            </Center>
-          }
-          boxSize="300px"
-          alt={"Loading..."}
-        />
-        <IconButton
-          colorScheme="cyan"
-          onClick={() => {
-            if (mapResponse.photos && photoIdx + 1 < mapResponse.photos.length) {
-              setPhotoIdx((idx) => idx + 1);
-            }
-          }}
-          icon={<ChevronRightIcon />}
-        />
-      </HStack>
-      <Box>{mapResponse.name && mapResponse.name}</Box>
-      <Box>
-        <StarIcon mr={3} color="yellow.200" />
-        {mapResponse.rating && mapResponse.rating}
-      </Box>
-      <Box>
-        {mapResponse.formatted_address && mapResponse.formatted_address}
-      </Box>
-      <HStack>
-        {mapResponse.isOpen ? (
-          <Text color="green.500">Open now</Text>
-        ) : (
-          <Text color="red.500">Close now</Text>
-        )}
-        <Menu>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                isActive={isOpen}
+          <Stack mt="40px">
+            {mapResponse.isOpen ? (
+              <Text color="green.500">Open now</Text>
+            ) : (
+              <Text color="red.500">Close now</Text>
+            )}
+            <Stack>
+              <Box
                 as={Button}
+                variant="unstyled"
+                textAlign="start"
                 rightIcon={<ChevronDownIcon />}
+                onClick={() => setMenuOpen((state) => !state)}
+                fontWeight="500"
+                color="#a3a3a3"
+                heightModify
               >
-                {isOpen ? "Close" : "Opening Time"}
-              </MenuButton>
-              <MenuList>
+                Opening Time
+              </Box>
+              <Stack>
                 {mapResponse.weekday &&
+                  menuOpen &&
                   mapResponse.weekday.map((item, idx) => {
-                    return <MenuItem key={idx}>{item}</MenuItem>;
+                    return <Box key={idx}>{item}</Box>;
                   })}
-              </MenuList>
-            </>
+              </Stack>
+            </Stack>
+          </Stack>
+          <Box mt="40px">
+            {mapResponse.formatted_address && mapResponse.formatted_address}
+          </Box>
+          {isSave ? (
+            <CategoryCardEdit removeCard={removeCard} placeInfo={placeInfo} />
+          ) : (
+            <CategoryCard foodlist={foodlist} email={email} />
           )}
-        </Menu>
-      </HStack>
-
-    </Stack>
+        </Flex>
+        {/* add vertical line */}
+        <HStack>
+          <IconButton
+            colorScheme="cyan"
+            onClick={() => {
+              if (photoIdx > 0) {
+                setPhotoIdx((idx) => idx - 1);
+              }
+            }}
+            bgColor="black"
+            color="white"
+            _hover={{
+              bgColor: "gray.400",
+            }}
+            icon={<ChevronLeftIcon />}
+          />
+          <Image
+            src={mapResponse.photos && mapResponse.photos[photoIdx].getUrl()}
+            fallback={
+              <Center as={Box} boxSize="300px">
+                <Spinner size="xl" />
+              </Center>
+            }
+            borderRadius="10px"
+            boxSize="500px"
+            alt={"Loading..."}
+          />
+          <IconButton
+            colorScheme="cyan"
+            onClick={() => {
+              if (
+                mapResponse.photos &&
+                photoIdx + 1 < mapResponse.photos.length
+              ) {
+                setPhotoIdx((idx) => idx + 1);
+              }
+            }}
+            _hover={{
+              bgColor: "gray.400",
+            }}
+            bgColor="black"
+            color="white"
+            icon={<ChevronRightIcon />}
+          />
+        </HStack>
+      </Flex>
+    </>
   );
 };
 export default FoodInfo;

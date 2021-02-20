@@ -50,7 +50,7 @@ const SigninPage = ({ handleLogin }) => {
   return (
     <>
       <Flex direction="column" align="center" mt="100px">
-        <Heading size="3xl">Sign in</Heading>
+        <Heading size="3xl" m={5} >Sign in</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="30px">
             <FormControl
@@ -92,7 +92,8 @@ const SigninPage = ({ handleLogin }) => {
             <Button
               isLoading={UIState === "loading"}
               type="submit"
-              colorScheme="blue"
+              bgColor="#febc00"
+              color="black"
               w="300px"
             >
               Sign in

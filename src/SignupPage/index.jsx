@@ -121,7 +121,8 @@ const SignupPage = ({handleLogin}) => {
                 <Button
                   isLoading={UIState === "loading"}
                   type="submit"
-                  colorScheme="blue"
+                  bgColor="#febc00"
+                  color="black"
                   w="300px"
                 >
                   Sign up

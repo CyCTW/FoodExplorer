@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, IconButton, Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import githubLogo from "../icon/github-logo.png"
 import BannerImage from "../icon/banner.jpg";
 const MainPage = () => {
   return (
@@ -24,14 +24,18 @@ const MainPage = () => {
           as={Link}
           to="/signup"
           variant="solid"
-          colorScheme="blue"
-          borderRadius="20px"
+          // colorScheme="blue"
+          p="25px"
+          bgColor="#febc00"
+          color="black"
+          borderRadius="10px"
         >
           Start building
         </Button>
       </Flex>
       <Flex>
-        fdsajlk
+        {/* <Image src={githubLogo} boxSize="30px" m={5}/> */}
+        <IconButton icon={githubLogo}/>
       </Flex>
     </>
   );

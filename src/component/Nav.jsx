@@ -19,7 +19,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link, useHistory } from "react-router-dom";
-import Logo from "../icon/logo_transparent.png";
+import Logo from "../icon/logo2.png";
 import { AuthLogout } from "./Auth";
 const Nav = ({ isLogin, setIsLogin }) => {
   const history = useHistory();
@@ -37,8 +37,9 @@ const Nav = ({ isLogin, setIsLogin }) => {
   return (
     <Flex
       justify="space-between"
-      bgColor="yellow.400"
-      height="60px"
+      bgColor="white"
+      boxShadow="0px 2px 1px #F4F4F4"
+      height="70px"
       style={{
         position: "fixed",
         width: "100%",
@@ -50,8 +51,8 @@ const Nav = ({ isLogin, setIsLogin }) => {
         <IconButton
           variant="link"
           m={5}
-          icon={<Image src={Logo} width="100px" height="40px" />}
-          bgColor="yellow.400"
+          icon={<Image src={Logo} width="180px" height="30px" ml={2} />}
+          bgColor="white"
           as={Link}
           to="/"
         />
@@ -72,6 +73,7 @@ const Nav = ({ isLogin, setIsLogin }) => {
             rightIcon={<ChevronDownIcon />}
             p={5}
             mr={3}
+            bgColor="#febc00"
           />
 
           <MenuList>
@@ -87,10 +89,10 @@ const Nav = ({ isLogin, setIsLogin }) => {
             ) : (
               <>
                 <MenuItem as={Link} to="/signup">
-                  <Text fontSize="20px">Signup</Text>
+                  <Text fontSize="20px">Sign up</Text>
                 </MenuItem>
                 <MenuItem as={Link} to="/signin">
-                  <Text fontSize="20px">Signin</Text>
+                  <Text fontSize="20px">Sign in</Text>
                 </MenuItem>
               </>
             )}

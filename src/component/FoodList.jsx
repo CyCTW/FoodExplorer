@@ -4,6 +4,7 @@ import {
   Button,
   Checkbox,
   Flex,
+  Heading,
   HStack,
   IconButton,
   Menu,
@@ -28,6 +29,7 @@ const FoodList = ({
   handleChangeAllFilter,
   placeInfo,
   setSelectedPlace,
+  FoodListUIState
 }) => {
   console.log({ placeInfo });
 
@@ -60,14 +62,14 @@ const FoodList = ({
   };
 
   return (
-    <Flex direction="column" align="center" w="50%">
+    <Flex direction="column" align="center" w="50%" pt="70px" h="100vh">
       <Box w="80%">
         <HStack spacing="50px">
-          <Text fontSize="6xl" fontFamily="">
-            Food List
-          </Text>
+          <Heading size="2xl">
+            FOOD LIST
+          </Heading>
           <Menu>
-            <MenuButton as={Button} colorScheme="gray">
+            <MenuButton as={Button} variant="outline" bgColor="#febc00" >
               Filter
             </MenuButton>
             <MenuList>
@@ -107,20 +109,19 @@ const FoodList = ({
         </HStack>
       </Box>
 
-      {Object.keys(placeInfo).length !== 0 ? (
+      {Object.keys(placeInfo).length !== 0 && FoodListUIState ==="finish"? (
         Object.keys(placeInfo).map((category, idx) => {
           if (checkBoxState[category]) {
             return (
               <Box key={idx} w="80%">
-                <HStack>
+                <HStack mt="30px">
                   <Box
-                    m={5}
                     as={Button}
                     variant="unstyled"
                     onClick={() => handleClickCategory({ category })}
                   >
                     <HStack>
-                      <Text fontSize="4xl">{category}</Text>
+                      <Text fontFamily="Roboto" fontSize="lg">{category}</Text>
 
                       {listState[category] ? (
                         <ChevronUpIcon />
@@ -130,8 +131,11 @@ const FoodList = ({
                     </HStack>
                   </Box>
                   <IconButton
+                    
                     onClick={() => handleDeleteCategory({ category })}
                     icon={<DeleteIcon />}
+                    variant="unstyled"
+                    color="#a3a3a3"
                   />
                 </HStack>
                 {placeInfo &&

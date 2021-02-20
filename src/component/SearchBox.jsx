@@ -121,14 +121,15 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
           as={IconButton}
           icon={<SearchIcon />}
           mr={2}
-          colorScheme="red"
+          bgColor="black"
+          color="white"
         />
 
         <Input
           //   border="2px"
           isInvalid
-          errorBorderColor="red.500"
-          focusBorderColor="red.400"
+          errorBorderColor="black"
+          focusBorderColor="black"
           // variant="outline"
           placeholder="Search restaurant/place"
           //   onChange={debounce(handleInputOnChange, 500)}
