@@ -74,6 +74,9 @@ function App() {
           <Route key="4" path="/confirm">
             <Confirm />
           </Route>
+          {/* <Route key="5" path="/account">
+            <AccountPage />
+          </Route> */}
         </Switch>
       </BrowserRouter>
   );

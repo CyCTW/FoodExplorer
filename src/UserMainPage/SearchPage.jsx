@@ -72,13 +72,22 @@ const SearchPage = () => {
     setCardUIState("success")
   };
 
-  const handleDeleteCategory = async ({ category }) => {
+  const handleDeleteCategory = async ({ category, setCardUIState, idx }) => {
     console.log("Click!");
     await deleteCategory({
       email: userEmail,
       category,
     });
     setRefresh(!refresh);
+    toast({
+      title: `Delete successfully!`,
+      description: `${category} category have been deleted`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "top"
+    })
+    setCardUIState(state => ({ ...state, [idx]: "success"}))
   };
 
   const onMapLoaded = async ({ map, maps }) => {

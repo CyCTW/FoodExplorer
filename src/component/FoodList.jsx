@@ -29,7 +29,7 @@ const FoodList = ({
   handleChangeAllFilter,
   placeInfo,
   setSelectedPlace,
-  FoodListUIState
+  FoodListUIState,
 }) => {
   console.log({ placeInfo });
 
@@ -49,7 +49,7 @@ const FoodList = ({
   let { url } = useRouteMatch();
 
   const handleClickCard = ({ placeInfo }) => {
-    placeInfo["weekday"] = placeInfo.opening_hours.weekday_text
+    placeInfo["weekday"] = placeInfo.opening_hours.weekday_text;
     setSelectedPlace(placeInfo);
     history.push(`${url}/show/${placeInfo.placeId}`);
   };
@@ -61,15 +61,15 @@ const FoodList = ({
     }));
   };
 
+  const [UIState, setUIState] = useState({});
+
   return (
     <Flex direction="column" align="center" w="50%" pt="70px" h="100vh">
       <Box w="80%">
         <HStack spacing="50px">
-          <Heading size="2xl">
-            FOOD LIST
-          </Heading>
+          <Heading size="2xl">FOOD LIST</Heading>
           <Menu>
-            <MenuButton as={Button} variant="outline" bgColor="#febc00" >
+            <MenuButton as={Button} variant="outline" bgColor="#febc00">
               Filter
             </MenuButton>
             <MenuList>
@@ -109,7 +109,7 @@ const FoodList = ({
         </HStack>
       </Box>
 
-      {Object.keys(placeInfo).length !== 0 && FoodListUIState ==="finish"? (
+      {Object.keys(placeInfo).length !== 0 && FoodListUIState === "finish" ? (
         Object.keys(placeInfo).map((category, idx) => {
           if (checkBoxState[category]) {
             return (
@@ -121,7 +121,9 @@ const FoodList = ({
                     onClick={() => handleClickCategory({ category })}
                   >
                     <HStack>
-                      <Text fontFamily="Roboto" fontSize="lg">{category}</Text>
+                      <Text fontFamily="Roboto" fontSize="lg">
+                        {category}
+                      </Text>
 
                       {listState[category] ? (
                         <ChevronUpIcon />
@@ -131,8 +133,16 @@ const FoodList = ({
                     </HStack>
                   </Box>
                   <IconButton
-                    
-                    onClick={() => handleDeleteCategory({ category })}
+                  isLoading={ (idx in UIState) && UIState[idx] === "loading"}
+                    onClick={() => {
+                      
+                      setUIState({...UIState, [idx]: "loading"});
+                      handleDeleteCategory({
+                        category,
+                        setCardUIState: setUIState,
+                        idx
+                      });
+                    }}
                     icon={<DeleteIcon />}
                     variant="unstyled"
                     color="#a3a3a3"

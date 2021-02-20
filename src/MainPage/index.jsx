@@ -1,6 +1,16 @@
-import { Box, Button, Flex, Heading, IconButton, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import githubLogo from "../icon/github-logo.png"
+import githubLogo from "../icon/github-logo.png";
+import youtubeLogo from "../icon/youtube.png";
+
 import BannerImage from "../icon/banner.jpg";
 const MainPage = () => {
   return (
@@ -33,9 +43,22 @@ const MainPage = () => {
           Start building
         </Button>
       </Flex>
-      <Flex>
+      <Flex justify="flex-end" h="100px">
         {/* <Image src={githubLogo} boxSize="30px" m={5}/> */}
-        <IconButton icon={githubLogo}/>
+        <Button variant="unstyled" m={5}>
+          <Image src={githubLogo} boxSize="30px" onClick={
+            () => {
+              window.open("https://github.com/CyCTW/FoodExplorer")
+            }
+          }/>
+        </Button>
+        <Button variant="unstyled" m={5}>
+          <Image src={youtubeLogo} boxSize="30px" onClick={
+            () => {
+              window.open("https://youtu.be/Cu9txd9VsfQ")
+            }
+          }/>
+        </Button>
       </Flex>
     </>
   );

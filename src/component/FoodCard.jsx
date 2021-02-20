@@ -10,7 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) => {
+const FoodCard = ({
+  placeInfo,
+  category,
+  handleDeleteItem,
+  handleClickCard,
+}) => {
   /* placeInfo: 
     - formatted_address
     - formatted_phone_number
@@ -23,7 +28,7 @@ const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) =>
     */
 
   console.log(placeInfo);
-  const [UIState, setUIState] = useState("success")
+  const [UIState, setUIState] = useState("success");
   return (
     <Box
       border="2px solid #e8e8e8"
@@ -34,7 +39,7 @@ const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) =>
       w={["50%", "100%"]}
       mt={5}
       as="button"
-      onClick={() => handleClickCard({placeInfo})}
+      onClick={() => handleClickCard({ placeInfo })}
     >
       <Flex justify="space-between" align="center">
         <HStack spacing="30px">
@@ -44,31 +49,48 @@ const FoodCard = ({ placeInfo, category, handleDeleteItem, handleClickCard }) =>
             borderRadius="6px"
           />
           <Stack spacing="3px">
-            <Text mb={2} fontFamily="Microsoft JhengHei" fontSize="xl" fontWeight="700" letterSpacing="2px">{placeInfo && placeInfo.name}</Text>
+            <Text
+              mb={2}
+              fontFamily="Microsoft JhengHei"
+              fontSize="xl"
+              fontWeight="700"
+              letterSpacing="2px"
+              color="black"
+            >
+              {placeInfo && placeInfo.name}
+            </Text>
             <HStack>
-              <StarIcon  color="#febc00" />
-              <Text>{placeInfo && placeInfo.rating}</Text>
+              <StarIcon color="#febc00" />
+              <Text color="black">{placeInfo && placeInfo.rating}</Text>
             </HStack>
 
             {placeInfo && placeInfo.opening_hours.isOpen() ? (
-              <Text color="green.200">Open now</Text>
+              <Text textAlign="start" fontSize="md" color="green.400">
+                Open Now
+              </Text>
             ) : (
-              <Text color="red.500">Close</Text>
-            )} 
+              <Text textAlign="start" fontSize="md" color="red.500">
+                Close Now
+              </Text>
+              // <Text mb={2} fontFamily="Microsoft JhengHei" fontWeight="700" letterSpacing="2px">麵屋壹慶</Text>
+            )}
             {/* Fix width */}
           </Stack>
         </HStack>
         <IconButton
           icon={<DeleteIcon />}
           isLoading={UIState === "loading"}
-          onClick={(e) => { 
-            setUIState("loading")
+          onClick={(e) => {
+            setUIState("loading");
             e.stopPropagation();
-            handleDeleteItem({ category, placeInfo, setCardUIState: setUIState })
+            handleDeleteItem({
+              category,
+              placeInfo,
+              setCardUIState: setUIState,
+            });
           }}
           variant="unstyled"
           color="#a3a3a3"
-
         />
       </Flex>
     </Box>

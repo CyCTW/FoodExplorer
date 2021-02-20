@@ -16,15 +16,16 @@ const PlaceCard = ({ placeInfo, handleClickPlaceCard }) => {
     >
       <Flex justify="space-between" align="center">
         <Stack spacing="3px">
+
           <Text mb={2} fontSize="20px" letterSpacing="2px" fontWeight="700">{placeInfo && placeInfo.name}</Text>
           <HStack>
             <StarIcon color="#febc00" />
             <Text>{placeInfo && placeInfo.rating}</Text>
           </HStack>
           {placeInfo && placeInfo.opening_hours.isOpen() ? (
-            <Text color="green.200">Open now</Text>
+            <Text textAlign="start" fontSize="sm" color="green.400">Open now</Text>
           ) : (
-            <Text color="red.500">Close</Text>
+            <Text textAlign="start" fontSize="sm" color="red.500">Close</Text>
           )}
         </Stack>
       </Flex>

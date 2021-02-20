@@ -15,6 +15,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import {
+  ArrowBackIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -25,6 +26,7 @@ import {
 import { useEffect, useState } from "react";
 import CategoryCardEdit from "./CategoryCardEdit";
 import CategoryCard from "./CategoryCard";
+import { useHistory } from "react-router-dom";
 const FoodInfo = ({
   mapResponse,
   isSave,
@@ -44,9 +46,9 @@ const FoodInfo = ({
   console.log(photoIdx);
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const history = useHistory();
 
   return (
-    // <Flex direction="column" align="center">
     <>
       <div
         style={{
@@ -56,6 +58,17 @@ const FoodInfo = ({
           height: "60vh",
         }}
       ></div>
+      <IconButton
+        icon={<ArrowBackIcon />}
+        variant="unstyled"
+        size="lg"
+        w="30px"
+        onClick={() => {
+          history.push(`/`);
+        }}
+        style={{ position: "fixed", top: "50px"}}
+      />
+
       <Flex justify="space-evenly" mt="100px">
         <Flex direction="column" mt={5}>
           <Text fontSize="30px" fontWeight="700" letterSpacing="2px">

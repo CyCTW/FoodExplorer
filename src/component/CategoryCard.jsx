@@ -20,10 +20,12 @@ import {
   FormLabel,
   Image,
   HStack,
+  Heading,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { updateNewFood } from "../utils";
+import IconSet from "./IconSet";
 
 const CategoryCard = ({ foodlist, email }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -104,9 +106,12 @@ const CategoryCard = ({ foodlist, email }) => {
               <ModalBody>
                 <Stack spacing={10}>
                   <FormControl>
-                    <FormLabel>Category Name</FormLabel>
+                    <FormLabel as={Text} fontSize="lg">Category Name</FormLabel>
                     <Input onChange={(e) => setUserInput(e.target.value)} />
-                    <FormLabel mt={5}>Category Icon</FormLabel>
+                    <FormLabel as={Text} fontSize="lg" mt={5}>Category Icon</FormLabel>
+                    <Text>Choose an icon</Text>
+                    <IconSet setImgURI={setImgURI}/>
+                    <Text>or upload a custom icon</Text>
                     <input
                       type="file"
                       style={{ display: "none" }}
