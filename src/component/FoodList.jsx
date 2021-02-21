@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import EmptyListPage from "../UserMainPage/EmptyListPage";
 import FoodCard from "./FoodCard";
 import SkeletonCard from "./SkeletonCard";
 
@@ -79,6 +80,8 @@ const FoodList = ({
                     return (
                       <Checkbox
                         p={3}
+                        iconColor="white"
+                        colorScheme="gray"
                         key={idx}
                         isChecked={
                           checkBoxState.hasOwnProperty(category) &&
@@ -97,6 +100,8 @@ const FoodList = ({
                   })}
                 <Checkbox
                   p={3}
+                  iconColor="white"
+                  colorScheme="gray"
                   isChecked={checkAll}
                   defaultIsChecked
                   onChange={handleChangeAllFilter}
@@ -133,14 +138,13 @@ const FoodList = ({
                     </HStack>
                   </Box>
                   <IconButton
-                  isLoading={ (idx in UIState) && UIState[idx] === "loading"}
+                    isLoading={idx in UIState && UIState[idx] === "loading"}
                     onClick={() => {
-                      
-                      setUIState({...UIState, [idx]: "loading"});
+                      setUIState({ ...UIState, [idx]: "loading" });
                       handleDeleteCategory({
                         category,
                         setCardUIState: setUIState,
-                        idx
+                        idx,
                       });
                     }}
                     icon={<DeleteIcon />}
@@ -169,7 +173,7 @@ const FoodList = ({
           }
         })
       ) : emptyList ? (
-        <Box>Your list is empty! Explore your food now!</Box>
+        <EmptyListPage />
       ) : (
         <>
           <SkeletonCard />

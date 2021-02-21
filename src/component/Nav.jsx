@@ -79,9 +79,7 @@ const Nav = ({ isLogin, setIsLogin }) => {
           <MenuList>
             {isLogin && isLogin ? (
               <>
-                <MenuItem as={Link} to="/account">
-                  <Text fontSize="20px" fontFamily="sans-serif">Account</Text>
-                </MenuItem>
+
                 <MenuItem onClick={handleLogout && handleLogout}>
                   <Text fontSize="20px">Logout</Text>
                 </MenuItem>

@@ -1,4 +1,4 @@
-import { Center, Flex, Stack, useToast } from "@chakra-ui/react";
+import { Center, Flex, Stack, useToast, Wrap } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import {
@@ -67,9 +67,9 @@ const SearchPage = () => {
       status: "success",
       duration: 2000,
       isClosable: true,
-      position: "top"
-    })
-    setCardUIState("success")
+      position: "top",
+    });
+    setCardUIState("success");
   };
 
   const handleDeleteCategory = async ({ category, setCardUIState, idx }) => {
@@ -85,9 +85,9 @@ const SearchPage = () => {
       status: "success",
       duration: 2000,
       isClosable: true,
-      position: "top"
-    })
-    setCardUIState(state => ({ ...state, [idx]: "success"}))
+      position: "top",
+    });
+    setCardUIState((state) => ({ ...state, [idx]: "success" }));
   };
 
   const onMapLoaded = async ({ map, maps }) => {
@@ -102,7 +102,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     console.log("Enter");
-    setUIState("loading")
+    setUIState("loading");
     const email = jwt(userId).email;
     setUserEmail(email);
     getUserFoodList(email)
@@ -117,7 +117,7 @@ const SearchPage = () => {
         }
         setFoodlist(foodlist);
         setPlaceInfo({});
-        
+
         setUIState("finish");
       })
       .catch((err) => {
@@ -242,28 +242,28 @@ const SearchPage = () => {
       <Switch>
         <Route path={`${path}`} exact>
           <Flex justify="space-between" mt="70px">
-            <FoodList
-              foodlist={foodlist}
-              emptyList={emptyList}
-              email={userEmail}
-              handleDeleteItem={handleDeleteItem}
-              handleDeleteCategory={handleDeleteCategory}
-              handleChangeAllFilter={handleChangeAllFilter}
-              handleChangeFilter={handleChangeFilter}
-              checkBoxState={checkBoxState}
-              checkAll={checkAll}
-              placeInfo={placeInfo}
-              setSelectedPlace={setSelectedPlace}
-              FoodListUIState={UIState}
-            />
-            <FoodMap
-              foodlist={foodlist}
-              onMapLoaded={onMapLoaded}
-              placeInfo={placeInfo}
-              placeIcons={placeIcons}
-              checkBoxState={checkBoxState}
-              setSelectedPlace={setSelectedPlace}
-            />
+              <FoodList
+                foodlist={foodlist}
+                emptyList={emptyList}
+                email={userEmail}
+                handleDeleteItem={handleDeleteItem}
+                handleDeleteCategory={handleDeleteCategory}
+                handleChangeAllFilter={handleChangeAllFilter}
+                handleChangeFilter={handleChangeFilter}
+                checkBoxState={checkBoxState}
+                checkAll={checkAll}
+                placeInfo={placeInfo}
+                setSelectedPlace={setSelectedPlace}
+                FoodListUIState={UIState}
+              />
+              <FoodMap
+                foodlist={foodlist}
+                onMapLoaded={onMapLoaded}
+                placeInfo={placeInfo}
+                placeIcons={placeIcons}
+                checkBoxState={checkBoxState}
+                setSelectedPlace={setSelectedPlace}
+              />
           </Flex>
         </Route>
         <Route path={`${path}/add/:placeId`}>

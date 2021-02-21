@@ -47,7 +47,7 @@ const FoodInfo = ({
 
   const [menuOpen, setMenuOpen] = useState(false);
   const history = useHistory();
-
+  
   return (
     <>
       <div
@@ -69,18 +69,18 @@ const FoodInfo = ({
         style={{ position: "fixed", top: "50px"}}
       />
 
-      <Flex justify="space-evenly" mt="100px">
+      <Flex justify="space-evenly" mt="100px" align="start">
         <Flex direction="column" mt={5}>
           <Text fontSize="30px" fontWeight="700" letterSpacing="2px">
-            {mapResponse.name && mapResponse.name}
+            {mapResponse && mapResponse.name && mapResponse.name}
           </Text>
           <Box>
             <StarIcon mr={3} color="#febc00" />
-            {mapResponse.rating && mapResponse.rating}
+            {mapResponse && mapResponse.rating && mapResponse.rating}
           </Box>
 
           <Stack mt="40px">
-            {mapResponse.isOpen ? (
+            {mapResponse && mapResponse.isOpen ? (
               <Text color="green.500">Open now</Text>
             ) : (
               <Text color="red.500">Close now</Text>
@@ -99,7 +99,7 @@ const FoodInfo = ({
                 Opening Time
               </Box>
               <Stack>
-                {mapResponse.weekday &&
+                {mapResponse && mapResponse.weekday &&
                   menuOpen &&
                   mapResponse.weekday.map((item, idx) => {
                     return <Box key={idx}>{item}</Box>;
@@ -108,7 +108,7 @@ const FoodInfo = ({
             </Stack>
           </Stack>
           <Box mt="40px">
-            {mapResponse.formatted_address && mapResponse.formatted_address}
+            {mapResponse && mapResponse.formatted_address && mapResponse.formatted_address}
           </Box>
           {isSave ? (
             <CategoryCardEdit removeCard={removeCard} placeInfo={placeInfo} />
@@ -133,7 +133,7 @@ const FoodInfo = ({
             icon={<ChevronLeftIcon />}
           />
           <Image
-            src={mapResponse.photos && mapResponse.photos[photoIdx].getUrl()}
+            src={mapResponse && mapResponse.photos && mapResponse.photos[photoIdx].getUrl()}
             fallback={
               <Center as={Box} boxSize="300px">
                 <Spinner size="xl" />

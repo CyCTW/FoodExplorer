@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   IconButton,
@@ -10,6 +11,8 @@ import {
 import { Link } from "react-router-dom";
 import githubLogo from "../icon/github-logo.png";
 import youtubeLogo from "../icon/youtube.png";
+import linkedinLogo from "../icon/linkedin.png"
+import facebookLogo from "../icon/facebook-circular-logo.png"
 
 import BannerImage from "../icon/banner.jpg";
 const MainPage = () => {
@@ -18,7 +21,7 @@ const MainPage = () => {
       <Flex
         style={{
           backgroundImage: `url(${BannerImage})`,
-          backgroundSize: "100% 100vh",
+          backgroundSize: "100% auto",
           backgroundRepeat: "no-repeat",
         }}
         w="100%"
@@ -43,21 +46,47 @@ const MainPage = () => {
           Start building
         </Button>
       </Flex>
-      <Flex justify="flex-end" h="100px">
-        {/* <Image src={githubLogo} boxSize="30px" m={5}/> */}
-        <Button variant="unstyled" m={5}>
-          <Image src={githubLogo} boxSize="30px" onClick={
-            () => {
-              window.open("https://github.com/CyCTW/FoodExplorer")
-            }
-          }/>
+      <Center mt={5}>Made by Matt Chang</Center>
+      <Flex justify="center" h="100px">
+        {/* <Box>
+          <Text m={7} fontWeight="700">Contact Author:</Text>
+        </Box> */}
+        <Button variant="unstyled" m={2}>
+          <Image
+            src={linkedinLogo}
+            boxSize="20px"
+            onClick={() => {
+              window.open("https://www.linkedin.com/in/cyctw/");
+            }}
+          />
         </Button>
-        <Button variant="unstyled" m={5}>
-          <Image src={youtubeLogo} boxSize="30px" onClick={
-            () => {
-              window.open("https://youtu.be/Cu9txd9VsfQ")
-            }
-          }/>
+        <Button variant="unstyled" m={2}>
+          <Image
+            src={facebookLogo}
+            boxSize="20px"
+            onClick={() => {
+              window.open("https://www.facebook.com/NCTU193/");
+            }}
+          />
+        </Button>
+
+        <Button variant="unstyled" m={2}>
+          <Image
+            src={githubLogo}
+            boxSize="20px"
+            onClick={() => {
+              window.open("https://github.com/CyCTW/FoodExplorer");
+            }}
+          />
+        </Button>
+        <Button variant="unstyled" m={2}>
+          <Image
+            src={youtubeLogo}
+            boxSize="20px"
+            onClick={() => {
+              window.open("https://youtu.be/Cu9txd9VsfQ");
+            }}
+          />
         </Button>
       </Flex>
     </>

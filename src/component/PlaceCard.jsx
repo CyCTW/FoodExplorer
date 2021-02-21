@@ -11,7 +11,7 @@ const PlaceCard = ({ placeInfo, handleClickPlaceCard }) => {
       as="button"
       color="white"
       bgColor="black"
-      // style={{opacity: "0.8"}}
+      style={{zIndex: "4"}}
       onClick={() => handleClickPlaceCard({ placeInfo })}
     >
       <Flex justify="space-between" align="center">
