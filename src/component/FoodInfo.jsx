@@ -36,14 +36,12 @@ const FoodInfo = ({
   placeInfo,
 }) => {
   // photo, name, rating, address, isOpen, businessStatus,
-  console.log(mapResponse);
   const [photoIdx, setPhotoIdx] = useState(0);
 
   useEffect(() => {
     setPhotoIdx(0);
   }, [mapResponse]);
   //   const photoLength = mapResponse.photos.length;
-  console.log(photoIdx);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const history = useHistory();

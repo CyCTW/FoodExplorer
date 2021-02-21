@@ -17,7 +17,6 @@ export const updateNewFood = async (data) => {
       }
     }
   */
-  console.log("data", data);
   const response = await axios.post(
     "/.netlify/functions/updateNewFood",
     JSON.stringify(data)
@@ -31,7 +30,6 @@ export const deleteCategory = async (data) => {
       email
     }
   */
-  console.log("data", data);
   const response = await axios.post(
     "/.netlify/functions/deleteCategory",
     JSON.stringify(data)
@@ -73,7 +71,6 @@ export const decodeToken = ({ onFindToken }) => {
   const targetURL = "#confirmation_token=";
   const pos = st.search(targetURL);
   if (pos !== -1) {
-    console.log("Find confirm token!");
     const token = st.slice(pos + targetURL.length);
     onFindToken({ token });
   }
@@ -88,7 +85,6 @@ export const getPlaceDetails = async ({
   onFinishLoaded
 }) => {
   if (mapAPILoaded) {
-    console.log("Enter", placeId)
     const service = new mapAPI.places.PlacesService(mapInstance);
     const request = {
       placeId,
@@ -109,7 +105,5 @@ export const getPlaceDetails = async ({
       }
     });
 
-  } else {
-    console.log("FUckck")
-  }
+  } 
 };

@@ -9,15 +9,12 @@ const CategoryCardEdit = ({ removeCard, placeInfo }) => {
 
   const getPosition = (encodedAddress) => {
     const success = (position) => {
-      console.log({ position });
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      console.log(lat, lng);
       const url = `https://www.google.com/maps/dir/?api=1&origin=${encodedAddress}&destination=${lat},${lng}`;
       window.open(url);
     };
     const error = () => {
-      console.log("Positoin error");
       toast({
         title: "Direction Failed",
         description: "Please allow the website to use your position",
@@ -35,9 +32,7 @@ const CategoryCardEdit = ({ removeCard, placeInfo }) => {
   };
   const handleDirection = async () => {
     const address = placeInfo.formatted_address;
-    console.log(address);
     const encodedAddress = encodeURI(address);
-    console.log(encodedAddress);
 
     getPosition(encodedAddress);
   };

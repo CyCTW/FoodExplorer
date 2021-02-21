@@ -58,7 +58,6 @@ export const AuthConfirm = async ({ token }) => {
       return response;
     })
     .catch((e) => {
-      console.log(e);
       return e;
     });
 };

@@ -9,7 +9,6 @@ exports.handler = async (event, context) => {
     secret: process.env.FAUNADB_SERVER_SECRET,
   });
 
-  console.log("Eventtttt", event);
   /* parse the string body into a useable JS object */
   const obj = JSON.parse(event.body);
   const category = obj.category;
@@ -18,9 +17,6 @@ exports.handler = async (event, context) => {
   const originFoodIds = obj.originFoodIds;
   const icon = obj.icon;
 
-  console.log("Function `updateNewFood` invoked", category);
-  console.log("origin", originFoodIds)
-  console.log({icon})
   /* construct the fauna query */
   /* 
   foodname : 
@@ -41,7 +37,7 @@ exports.handler = async (event, context) => {
       )
     )
     .then((response) => {
-      console.log("success", response);
+      // console.log("success", response);
       /* Success! return the response with statusCode 200 */
       return {
         statusCode: 200,
@@ -49,7 +45,7 @@ exports.handler = async (event, context) => {
       };
     })
     .catch((error) => {
-      console.log("error", error);
+      // console.log("error", error);
       /* Error! return the error with statusCode 400 */
       return {
         statusCode: 400,

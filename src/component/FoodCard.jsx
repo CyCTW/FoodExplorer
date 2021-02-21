@@ -27,7 +27,6 @@ const FoodCard = ({
     - 
     */
 
-  console.log(placeInfo);
   const [UIState, setUIState] = useState("success");
   return (
     <Box

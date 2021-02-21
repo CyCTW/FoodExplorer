@@ -31,19 +31,8 @@ const SignupPage = ({handleLogin}) => {
   let { path } = useRouteMatch();
   const [UIState, setUIState] = useState();
 
-  // const onSubmit = async (data) => {
-  //   console.log("data", data);
-  //   try {
-  //     setUIState("loading");
-      
-  //     history.push(`/confirm`);
-  //   } catch (error) {
-  //     setUIState("error");
-  //     console.log("Submit error", error);
-  //   }
-  // };
+
   const onSubmit = async (data) => {
-    console.log(data);
     setUIState("loading");
     try {
       await AuthSignup({
@@ -55,7 +44,6 @@ const SignupPage = ({handleLogin}) => {
 
       AuthGetJWT()
         .then((token) => {
-          console.log("token", token);
           setUIState("success");
           handleLogin({ token });
           history.push(`/user/${token}`);

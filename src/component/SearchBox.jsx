@@ -26,7 +26,6 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
   // Googlemap autocomplete search
   const handleAutoComplete = () => {
     if (mapAPILoaded && inputText) {
-      console.log("enter!");
       const service = new mapAPI.places.AutocompleteService();
       //   const service = new mapAPI.places.PlacesService(mapInstance);
       const request = {
@@ -34,9 +33,7 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
       };
 
       service.getPlacePredictions(request, (results, status) => {
-        // console.log(results);
         if (status === mapAPI.places.PlacesServiceStatus.OK) {
-          console.log(results);
           setAutocompleteSearch(results);
         }
       });
@@ -46,7 +43,6 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
   // call autocomplete when user input change
   useEffect(() => {
     handleAutoComplete();
-    // console.log("Text", inputText.length)
     if (inputText) {
       setMenuOpen(true);
     }
@@ -54,13 +50,11 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
 
   // handle user input
   const handleInputOnChange = (e) => {
-    console.log(e.target.value);
     setInputText(e.target.value);
   };
 
   // handle user click autocomplete search result
   const handleClickItem = async (e) => {
-    console.log(e);
     setInputText(e.target.innerHTML);
     setMenuOpen(false);
 
@@ -82,7 +76,6 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
     };
     await service.getDetails(request, (results, status) => {
       if (status === mapAPI.places.PlacesServiceStatus.OK) {
-        // console.log(results.opening_hours.weekday_text);
         // deal with null value
         setMapResponse({
           photos: results.photos ? results.photos : null,
@@ -98,17 +91,14 @@ const SearchBox = ({ setMapResponse, mapAPILoaded, mapInstance, mapAPI }) => {
         history.push(`${url}/add/${placeId}`);
       }
     });
-    // console.log("Value", e.target.value)
   };
 
   const handleFocus = () => {
-    console.log("there");
     setMenuOpen(true);
   };
   const handleBlur = () => {
     setMenuOpen(false);
   };
-  console.log({ menuOpen });
   return (
     <Flex
       w="300px"

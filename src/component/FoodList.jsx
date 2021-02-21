@@ -32,7 +32,6 @@ const FoodList = ({
   setSelectedPlace,
   FoodListUIState,
 }) => {
-  console.log({ placeInfo });
 
   useEffect(() => {
     if (foodlist) {
@@ -45,7 +44,6 @@ const FoodList = ({
     }
   }, [foodlist]);
   const [listState, setListState] = useState({});
-  console.log({ listState });
   const history = useHistory();
   let { url } = useRouteMatch();
 
@@ -55,7 +53,6 @@ const FoodList = ({
     history.push(`${url}/show/${placeInfo.placeId}`);
   };
   const handleClickCategory = ({ category }) => {
-    console.log("Category", category);
     setListState((state) => ({
       ...state,
       [category]: !state[category],

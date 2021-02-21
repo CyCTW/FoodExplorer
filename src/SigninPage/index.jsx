@@ -23,16 +23,18 @@ const SigninPage = ({ handleLogin }) => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
   const [UIState, setUIState] = useState();
+  const [guestUIState, setGuestUIState] = useState();
+
+  const guestEmail = "Guest@gmail.com"
+  const guestPassword = "123456"
 
   const onSubmit = async (data) => {
-    console.log(data);
     setUIState("loading");
     try {
       await AuthLogin({ email: data.email, password: data.password });
 
       AuthGetJWT()
         .then((token) => {
-          console.log("token", token);
           setUIState("success");
           handleLogin({ token });
           history.push(`/user/${token}`);
@@ -47,10 +49,36 @@ const SigninPage = ({ handleLogin }) => {
       return error;
     }
   };
+
+  const handleLoginAsGuest = async (data) => {
+    setGuestUIState("loading");
+    try {
+      await AuthLogin({ email: data.email, password: data.password });
+
+      AuthGetJWT()
+        .then((token) => {
+          setUIState("success");
+          handleLogin({ token });
+          history.push(`/user/${token}`);
+        })
+        .catch((err) => {
+          console.log("error occured", err);
+        });
+    } catch (error) {
+      console.log("error", error);
+      setGuestUIState("error");
+
+      return error;
+    }
+  };
+
+
   return (
     <>
       <Flex direction="column" align="center" mt="100px">
-        <Heading size="3xl" m={5} >Sign in</Heading>
+        <Heading size="3xl" m={5}>
+          Sign in
+        </Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="30px">
             <FormControl
@@ -88,7 +116,7 @@ const SigninPage = ({ handleLogin }) => {
                 Sign up
               </Text>
             </HStack>
-            
+
             <Button
               isLoading={UIState === "loading"}
               type="submit"
@@ -100,6 +128,19 @@ const SigninPage = ({ handleLogin }) => {
             </Button>
           </Stack>
         </form>
+        
+          <Text m={5}>or</Text>
+          <Button
+            isLoading={guestUIState === "loading"}
+            type="submit"
+            bgColor="gray"
+            color="black"
+            w="300px"
+            onClick={() => {
+              handleLoginAsGuest({"email": guestEmail, "password": guestPassword})}}
+          >
+            Log in as guest
+          </Button>
       </Flex>
     </>
   );

@@ -35,7 +35,7 @@ const MainPage = () => {
         </Heading>
         <Button
           as={Link}
-          to="/signup"
+          to="/signin"
           variant="solid"
           // colorScheme="blue"
           p="25px"

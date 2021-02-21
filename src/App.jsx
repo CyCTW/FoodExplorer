@@ -29,17 +29,13 @@ function App() {
 
   // Check #confirm_token exists
   useEffect(async () => {
-    console.log("Confirmtoken", confirmToken);
     if (confirmToken !== null) {
       const confirmResponse = await AuthConfirm({ confirmToken });
-      console.log("confirm response", confirmResponse)
       const tokenJWT = await AuthGetJWT();
       setJWTtoken(tokenJWT);
 
-      console.log("JWTtoken: ", tokenJWT);
 
       const response = await createUser({ email: confirmResponse.email});
-      console.log("confirm successful!, resp", response);
       setIsLogin(true);
     } else {
       decodeToken({ onFindToken });
@@ -50,7 +46,6 @@ function App() {
     setIsLogin(true);
     setJWTtoken(token);
   }
-  console.log({isLogin})
   return (
       <BrowserRouter>
         <Nav isLogin={isLogin} setIsLogin={setIsLogin} />

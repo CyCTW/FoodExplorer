@@ -44,7 +44,6 @@ const CategoryCard = ({ foodlist, email }) => {
       setCategoryList([]);
     }
   }, [foodlist]);
-  console.log({ categoryList });
   const history = useHistory();
 
   const handleStoreFood = async () => {
@@ -63,7 +62,6 @@ const CategoryCard = ({ foodlist, email }) => {
 
     history.push("/");
   };
-  console.log({ selectedCategory });
   const inputRef = useRef();
 
   const [imgURI, setImgURI] = useState();
@@ -72,7 +70,6 @@ const CategoryCard = ({ foodlist, email }) => {
     let reader = new FileReader();
     reader.onload = (r) => {
       const URI = r.target.result;
-      console.log(URI);
       setImgURI(URI);
     };
     reader.readAsDataURL(img);

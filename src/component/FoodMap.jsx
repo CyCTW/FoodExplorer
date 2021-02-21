@@ -61,7 +61,6 @@ const FoodMap = ({
   const toast = useToast();
   const handleCurrentPosition = () => {
     const success = (position) => {
-      console.log({ position });
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
       setCurrentPos( state => ({

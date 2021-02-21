@@ -48,7 +48,6 @@ const SearchPage = () => {
   const toast = useToast();
 
   const handleDeleteItem = async ({ category, placeInfo, setCardUIState }) => {
-    console.log("Delete Item!");
     // Delete food
     await updateNewFood({
       email: userEmail,
@@ -60,7 +59,6 @@ const SearchPage = () => {
     setRefresh(!refresh);
 
     history.push(`${url}`);
-    console.log({ refresh });
     toast({
       title: `Delete successfully!`,
       description: `${placeInfo.name} have been deleted`,
@@ -73,7 +71,6 @@ const SearchPage = () => {
   };
 
   const handleDeleteCategory = async ({ category, setCardUIState, idx }) => {
-    console.log("Click!");
     await deleteCategory({
       email: userEmail,
       category,
@@ -91,7 +88,6 @@ const SearchPage = () => {
   };
 
   const onMapLoaded = async ({ map, maps }) => {
-    console.log("finish loaded");
 
     setMapAPILoaded(true);
     setMapInstance(map);
@@ -101,16 +97,13 @@ const SearchPage = () => {
   const [emptyList, setEmptyList] = useState(false);
 
   useEffect(() => {
-    console.log("Enter");
     setUIState("loading");
     const email = jwt(userId).email;
     setUserEmail(email);
     getUserFoodList(email)
       .then((response) => {
-        console.log("response", response);
 
         const foodlist = response.data.data.foodList;
-        console.log({ foodlist });
 
         if (Object.keys(foodlist).length === 0) {
           setEmptyList(true);
@@ -137,7 +130,6 @@ const SearchPage = () => {
   const onFinishLoaded = ({ results, placeId, category }) => {
     results["placeId"] = placeId;
     results["category"] = category;
-    console.log({ results });
     setPlaceInfo((currentState) => ({
       ...currentState,
       [category]: [
@@ -155,7 +147,6 @@ const SearchPage = () => {
   const [selectedPlace, setSelectedPlace] = useState();
 
   useEffect(() => {
-    console.log({ checkBoxState });
     if (foodlist && Object.keys(checkBoxState).length === 0) {
       // initialize
       setCheckboxState(
@@ -189,9 +180,7 @@ const SearchPage = () => {
       )
     );
     setCheckAll(!checkAll);
-    console.log("ALl Clicked!!");
   };
-  console.log({ placeInfo });
   useEffect(() => {
     if (
       foodlist &&
@@ -200,7 +189,6 @@ const SearchPage = () => {
       mapInstance &&
       UIState === "finish"
     ) {
-      console.log({ foodlist });
       Object.keys(foodlist).forEach((category) => {
         setPlaceIcons((currentState) => ({
           ...currentState,
@@ -228,7 +216,6 @@ const SearchPage = () => {
     }
   }, [foodlist, userEmail, mapAPI, mapInstance, mapAPILoaded, UIState]);
 
-  console.log({ UIState });
   return (
     <>
       <Center>
