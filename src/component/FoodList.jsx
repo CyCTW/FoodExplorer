@@ -48,7 +48,7 @@ const FoodList = ({
   let { url } = useRouteMatch();
 
   const handleClickCard = ({ placeInfo }) => {
-    placeInfo["weekday"] = placeInfo.opening_hours.weekday_text;
+    placeInfo["weekday"] = placeInfo.opening_hours && placeInfo.opening_hours.weekday_text;
     setSelectedPlace(placeInfo);
     history.push(`${url}/show/${placeInfo.placeId}`);
   };

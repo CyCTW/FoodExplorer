@@ -63,7 +63,7 @@ const FoodCard = ({
               <Text color="black">{placeInfo && placeInfo.rating}</Text>
             </HStack>
 
-            {placeInfo && placeInfo.opening_hours.isOpen() ? (
+            {placeInfo && placeInfo.opening_hours && placeInfo.opening_hours.isOpen() ? (
               <Text textAlign="start" fontSize="md" color="green.400">
                 Open Now
               </Text>

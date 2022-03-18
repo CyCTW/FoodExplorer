@@ -22,7 +22,7 @@ const PlaceCard = ({ placeInfo, handleClickPlaceCard }) => {
             <StarIcon color="#febc00" />
             <Text>{placeInfo && placeInfo.rating}</Text>
           </HStack>
-          {placeInfo && placeInfo.opening_hours.isOpen() ? (
+          {placeInfo && placeInfo.opening_hours && placeInfo.opening_hours.isOpen() ? (
             <Text textAlign="start" fontSize="sm" color="green.400">Open now</Text>
           ) : (
             <Text textAlign="start" fontSize="sm" color="red.500">Close</Text>

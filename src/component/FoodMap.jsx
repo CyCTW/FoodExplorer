@@ -38,13 +38,13 @@ const FoodMap = ({
 
   const handleClickPlace = ({ placeInfo, category, idx }) => {
     setSelectedPlaceMark({ category, idx });
-    const lat = placeInfo.geometry.location.lat();
-    const lng = placeInfo.geometry.location.lng();
+    const lat = placeInfo.geometry && placeInfo.geometry.location.lat();
+    const lng = placeInfo.geometry && placeInfo.geometry.location.lng();
     setCurrentPos({
       ...currentPos,
       center: {
-        lat: placeInfo.geometry.location.lat(),
-        lng: placeInfo.geometry.location.lng(),
+        lat: placeInfo.geometry && placeInfo.geometry.location.lat(),
+        lng: placeInfo.geometry && placeInfo.geometry.location.lng(),
       },
     });
   };
@@ -52,7 +52,7 @@ const FoodMap = ({
   const { url } = useRouteMatch();
 
   const handleClickPlaceCard = ({ placeInfo }) => {
-    placeInfo["weekday"] = placeInfo.opening_hours.weekday_text;
+    placeInfo["weekday"] = placeInfo.opening_hours && placeInfo.opening_hours.weekday_text;
 
     setSelectedPlace(placeInfo);
 
