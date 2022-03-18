@@ -78,7 +78,6 @@ const CategoryCard = ({ foodlist, email }) => {
 
   return (
     <Flex direction="column" align="center" mt={5}>
-
       <Menu mt={5}>
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />} w="300px">
           {selectedCategory ? selectedCategory : "Choose a category"}
@@ -95,71 +94,76 @@ const CategoryCard = ({ foodlist, email }) => {
           <MenuItem borderTop="solid 2px #f4f4f4" onClick={onOpen}>
             + Create category
           </MenuItem>
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Create Category</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Stack spacing={10}>
-                  <FormControl>
-                    <FormLabel as={Text} fontSize="lg">Category Name</FormLabel>
-                    <Input onChange={(e) => setUserInput(e.target.value)} />
-                    <FormLabel as={Text} fontSize="lg" mt={5}>Category Icon</FormLabel>
-                    <Text>Choose an icon</Text>
-                    <IconSet setImgURI={setImgURI}/>
-                    <Text>or upload a custom icon</Text>
-                    <input
-                      type="file"
-                      style={{ display: "none" }}
-                      ref={inputRef}
-                      onChange={handleFileChange}
-                    />
-                    <HStack spacing="20px">
-                      <Button
-                        onClick={() => {
-                          inputRef.current.click();
-                        }}
-                      >
-                        Choose an Icon
-                      </Button>
-                      <Image
-                        border="solid 1px #f4f4f4"
-                        borderRadius="8px"
-                        src={imgURI && imgURI}
-                        boxSize="50px"
-                      />
-                    </HStack>
-                  </FormControl>
-                  <Button
-                    bgColor="#febc00"
-                    as={Link}
-                    isLoading={UIState === "loading"}
-                    onClick={async () => {
-                      setUIState("loading");
-                      setCategoryList([...categoryList, userInput]);
-                      setSelectedCategory(userInput);
-
-                      // create food list
-                      await updateNewFood({
-                        email,
-                        category: userInput,
-                        originFoodIds: [],
-                        icon: imgURI,
-                      });
-                      setUIState("finish");
-
-                      onClose();
-                    }}
-                  >
-                    Create
-                  </Button>
-                </Stack>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
         </MenuList>
       </Menu>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create Category</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Stack spacing={10}>
+              <FormControl>
+                <FormLabel as={Text} fontSize="lg">
+                  Category Name
+                </FormLabel>
+                <Input onChange={(e) => setUserInput(e.target.value)} />
+                <FormLabel as={Text} fontSize="lg" mt={5}>
+                  Category Icon
+                </FormLabel>
+                <Text>Choose an icon</Text>
+                <IconSet setImgURI={setImgURI} />
+                <Text>or upload a custom icon</Text>
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={inputRef}
+                  onChange={handleFileChange}
+                />
+                <HStack spacing="20px">
+                  <Button
+                    onClick={() => {
+                      inputRef.current.click();
+                    }}
+                  >
+                    Choose an Icon
+                  </Button>
+                  <Image
+                    border="solid 1px #f4f4f4"
+                    borderRadius="8px"
+                    src={imgURI && imgURI}
+                    boxSize="50px"
+                  />
+                </HStack>
+              </FormControl>
+              <Button
+                bgColor="#febc00"
+                as={Link}
+                isLoading={UIState === "loading"}
+                onClick={async () => {
+                  setUIState("loading");
+                  setCategoryList([...categoryList, userInput]);
+                  setSelectedCategory(userInput);
+
+                  // create food list
+                  await updateNewFood({
+                    email,
+                    category: userInput,
+                    originFoodIds: [],
+                    icon: imgURI,
+                  });
+                  setUIState("finish");
+
+                  onClose();
+                }}
+              >
+                Create
+              </Button>
+            </Stack>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
       <Button
         onClick={handleStoreFood}
         isLoading={UIState === "loading"}
